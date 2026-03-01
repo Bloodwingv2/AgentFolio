@@ -104,7 +104,7 @@ I'm also an avid Agentic Ai Researcher who is actively building industry grade a
             role: "DevOps Engineer",
             company: "Keysight Technologies",
             period: "2024 Feb - 2024 July",
-            description: "Implemented two seamless Jenkins automation pipelines using Groovy and Python that significantly reduced manual effort and improved efficiency for electronics testing. Over the course of five months, delivered five major pipeline enhancements using HTML5, CSS based technologies to create CI/CD Pipelines, while contributing more than 5,000 lines of production code across 500+ commits. In addition, Created detailed documentation to support pipeline improvements and ensure smooth knowledge transfer along United States and Penang Based DevOps Teams ensuring global collaboration",
+            description: "Implemented two seamless Jenkins automation pipelines using Groovy and Python that significantly reduced manual effort and improved efficiency for electronics testing.\nOver the course of five months, delivered five major pipeline enhancements using HTML5 and CSS based technologies to create CI/CD Pipelines.\nContributed more than 5,000 lines of production code across 500+ commits.\nCreated detailed documentation to support pipeline improvements and ensure smooth knowledge transfer between US and Penang based DevOps teams.",
             logo: keysightLogo
         },
         {
@@ -112,7 +112,7 @@ I'm also an avid Agentic Ai Researcher who is actively building industry grade a
             role: "Deep Learning Intern",
             company: "Resolute.AI",
             period: "2023 Jan - 2023 May",
-            description: "Developed Computer Vision proof-of-concepts and worked extensively with NLP and machine learning using Python. This included building, testing, and evaluating ML/DL models to address real-world challenges. I also conducted image annotation to create custom datasets tailored for object detection tasks",
+            description: "Developed Computer Vision proof-of-concepts and worked extensively with NLP and machine learning using Python.\nBuilt, tested, and evaluated ML/DL models to address real-world challenges.\nConducted image annotation to create custom datasets tailored for object detection tasks.",
             logo: resoluteLogo
         }
     ] as Experience[],
