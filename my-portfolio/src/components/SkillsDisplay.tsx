@@ -37,20 +37,20 @@ const SkillsDisplay: React.FC<SkillsDisplayProps> = React.memo(({ skills }) => {
     };
 
     return (
-        <div ref={containerRef} className="flex flex-col gap-8 w-full">
+        <div ref={containerRef} className="flex flex-col gap-5 sm:gap-8 w-full">
             {skills.map((category, idx) => (
                 <div key={idx} className="skill-section">
-                    <div className="flex items-center gap-3 mb-4 text-gray-200">
-                        <span className="p-2 bg-gray-800 rounded-lg text-purple-400">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 text-gray-200">
+                        <span className="p-1.5 sm:p-2 bg-gray-800 rounded-lg text-purple-400">
                             {getIcon(category.icon)}
                         </span>
-                        <h4 className="font-bold text-lg tracking-wide">{category.title}</h4>
+                        <h4 className="font-bold text-base sm:text-lg tracking-wide">{category.title}</h4>
                     </div>
-                    <div className="flex flex-wrap gap-2 pl-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 pl-0 sm:pl-2">
                         {category.skills.map((skill, sIdx) => (
                             <span
                                 key={sIdx}
-                                className="px-4 py-1.5 bg-black border border-gray-800 rounded-full text-sm font-medium text-gray-300 hover:border-purple-500 hover:text-white hover:bg-gray-900 transition-all cursor-default"
+                                className="px-3 py-1 sm:px-4 sm:py-1.5 bg-black border border-gray-800 rounded-full text-xs sm:text-sm font-medium text-gray-300 hover:border-purple-500 hover:text-white hover:bg-gray-900 transition-all cursor-default"
                             >
                                 {skill}
                             </span>
