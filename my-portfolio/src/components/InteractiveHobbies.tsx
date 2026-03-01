@@ -23,12 +23,14 @@ const InteractiveHobbies: React.FC<InteractiveHobbiesProps> = React.memo(({ hobb
         // Prevent re-animation issues during chat streaming by checking if already rendered
         if (containerRef.current?.dataset.animated === "true") return;
 
+        const isMobile = window.innerWidth < 768;
+
         gsap.from(".interactive-hobby-card", {
             y: 40,
             opacity: 0,
             rotationX: 10,
-            duration: 0.8,
-            stagger: 0.1,
+            duration: isMobile ? 0.4 : 0.8,
+            stagger: isMobile ? 0 : 0.1, // Disable stagger on mobile
             ease: "power3.out",
             clearProps: "all"
         });

@@ -8,18 +8,21 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 function App() {
   const [loading, setLoading] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="min-h-[100dvh] bg-black text-white selection:bg-white selection:text-black">
       {loading ? (
         <SplashScreen onComplete={() => setLoading(false)} />
       ) : (
-        <Layout onHomeClick={() => setHasStarted(false)}>
+        <Layout onHomeClick={() => setHasStarted(false)} onMenuClick={() => setIsSidebarOpen(true)}>
           <ChatInterface
             hasStarted={hasStarted}
             onStart={() => setHasStarted(true)}
             activePrompt={null}
             onPromptHandled={() => { }}
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
           />
         </Layout>
       )}

@@ -26,15 +26,16 @@ interface ChatInterfaceProps {
     onStart: () => void;
     activePrompt: string | null;
     onPromptHandled: () => void;
+    isSidebarOpen: boolean;
+    setIsSidebarOpen: (isOpen: boolean) => void;
 }
 
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, activePrompt, onPromptHandled }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, activePrompt, onPromptHandled, isSidebarOpen, setIsSidebarOpen }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const [showMatrix, setShowMatrix] = useState(false);
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState<any>(null);
     const [isFetchingTool, setIsFetchingTool] = useState(false); // New state for tool execution UI
     const [fakeToolName, setFakeToolName] = useState(""); // Track fake tool names for the UI
@@ -726,10 +727,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                 onCommandSelect={handleSendMessage}
             />
 
-            {/* Toggle Sidebar Button - Animate with Sidebar */}
+            {/* Toggle Sidebar Button - Animate with Sidebar (Desktop Only) */}
             <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className={`fixed top-1/2 -translate-y-1/2 z-[60] p-3 text-gray-400 hover:text-white bg-[#171717] border border-[#2f2f2f] transition-all duration-300 ease-out shadow-xl ${isSidebarOpen
+                className={`hidden sm:block fixed top-1/2 -translate-y-1/2 z-[60] p-3 text-gray-400 hover:text-white bg-[#171717] border border-[#2f2f2f] transition-all duration-300 ease-out shadow-xl ${isSidebarOpen
                     ? 'left-72 sm:left-80 rounded-r-xl border-l-[#171717]'
                     : 'left-0 rounded-r-xl border-l-0'
                     }`}
