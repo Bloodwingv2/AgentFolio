@@ -10,8 +10,8 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick }) => {
     return (
-        <div className="flex flex-col h-[100dvh] w-full max-w-4xl mx-auto p-2 sm:p-4 md:p-6 font-sans">
-            <header className="flex justify-between items-center py-2 sm:py-4 border-b border-gray-800 mb-2 sm:mb-4 z-20 relative">
+        <div className="flex flex-col h-[100dvh] w-full max-w-3xl mx-auto p-2 sm:p-4 md:p-4 font-sans">
+            <header className="flex justify-between items-center py-2 sm:py-3 md:py-4 border-b border-gray-800 mb-2 sm:mb-4 z-20 relative">
                 <div className="flex items-center gap-2 sm:gap-3">
                     <button
                         onClick={onMenuClick}
@@ -29,7 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick }) =
                         <div className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-900 border border-gray-800 group-hover:border-white transition-colors">
                             <Bot className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                         </div>
-                        <h1 className="text-lg sm:text-xl font-semibold tracking-tight">
+                        <h1 className="text-lg sm:text-lg md:text-xl font-semibold tracking-tight">
                             <span className="text-gray-500 group-hover:text-gray-300 transition-colors">AgentFolio</span>
                         </h1>
                     </div>

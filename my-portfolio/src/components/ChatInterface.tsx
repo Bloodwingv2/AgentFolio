@@ -638,17 +638,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                     <img
                         src={portfolioData.profileImage}
                         alt={portfolioData.name}
-                        className="w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full object-cover border-4 border-gray-900 shadow-2xl relative z-10"
+                        className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full object-cover border-4 border-gray-900 shadow-2xl relative z-10"
                         fetchPriority="high"
                         decoding="sync"
                         loading="eager"
                     />
                     <div className="absolute bottom-2 right-2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 bg-blue-500 border-4 border-black rounded-full z-20"></div>
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 md:mb-6 text-center tracking-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4 text-center tracking-tight">
                     Hi, I'm {portfolioData.name}
                 </h2>
-                <p className="text-gray-400 text-center max-w-lg md:max-w-xl lg:max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed px-4 mb-6 sm:mb-8">
+                <p className="text-gray-400 text-center max-w-lg md:max-w-xl text-sm sm:text-base leading-relaxed px-4 mb-6 sm:mb-8">
                     {portfolioData.role}. Ask me anything about my work, skills, or experience.
                 </p>
 
