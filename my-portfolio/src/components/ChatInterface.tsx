@@ -686,17 +686,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                                 <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white text-black">
                                     <Terminal size={18} />
                                 </div>
-                                <div className="flex flex-col gap-2">
-                                    <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-gray-900 border border-gray-800 text-gray-400 text-sm flex items-center gap-2 w-fit">
+                                <div className="flex flex-col gap-2 max-w-full overflow-hidden">
+                                    <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-gray-900 border border-gray-800 text-gray-400 text-sm flex items-center gap-2 w-fit max-w-full">
                                         <ThinkingVisualizer />
-                                        <span className="text-xs text-gray-500 font-mono self-center ml-2">Process(pid=404)</span>
+                                        <span className="text-xs text-gray-500 font-mono self-center ml-2 truncate">Process(pid=404)</span>
                                     </div>
 
                                     {/* Sub-status for Tool Execution (ChatGPT Style) */}
                                     {isFetchingTool && (
-                                        <div className="flex items-center gap-2 px-2 text-gray-500 text-xs animate-pulse">
-                                            <Activity size={12} className="text-gray-400" />
-                                            <span>Calling function: <span className="font-mono bg-gray-800/50 px-1 rounded">{fakeToolName || "fetch_github_activity"}</span>...</span>
+                                        <div className="flex items-center gap-2 px-2 text-gray-500 text-xs animate-pulse max-w-full overflow-hidden">
+                                            <Activity size={12} className="text-gray-400 shrink-0" />
+                                            <span className="truncate">Calling function: <span className="font-mono bg-gray-800/50 px-1 rounded">{fakeToolName || "fetch_github_activity"}</span>...</span>
                                         </div>
                                     )}
                                 </div>

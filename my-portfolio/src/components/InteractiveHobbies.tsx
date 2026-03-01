@@ -118,9 +118,9 @@ const InteractiveHobbies: React.FC<InteractiveHobbiesProps> = React.memo(({ hobb
                                         {hobby.title}
                                     </h4>
 
-                                    {/* Description reveals smoothly on hover */}
-                                    <div className="h-0 md:h-auto opacity-70 md:opacity-100 overflow-hidden group-hover:h-auto group-hover:opacity-100 transition-all duration-500 ease-out">
-                                        <p className="text-sm text-gray-400 line-clamp-3 md:line-clamp-2 leading-relaxed">
+                                    {/* Description reveals smoothly on hover and mobile tap */}
+                                    <div className="max-h-0 md:max-h-none opacity-0 md:opacity-100 overflow-hidden group-hover:max-h-40 group-active:max-h-40 group-focus:max-h-40 group-hover:opacity-100 group-active:opacity-100 transition-all duration-500 ease-out mt-0 group-hover:mt-2 group-active:mt-2">
+                                        <p className="text-sm text-gray-400 line-clamp-4 leading-relaxed pb-2">
                                             {hobby.description}
                                         </p>
                                     </div>
