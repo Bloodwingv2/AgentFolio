@@ -111,7 +111,7 @@ export const fetchGithubActivity = async (username: string = 'Bloodwingv2'): Pro
             });
 
         } else {
-            // Production on Vercel: Perfectly routes to the Serverless Function.
+            // Production on Vercel: perfectly routes to the Serverless Function.
             console.log("Production mode detected. Fetching from Vercel Edge API.");
             const response = await fetch(`/api/github?username=${username}`);
 

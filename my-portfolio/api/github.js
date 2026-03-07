@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
     const username = req.query.username || 'Bloodwingv2';
-    const CACHE_DURATION = 3 * 60 * 60; // 3 hours in seconds
+    const CACHE_DURATION = 6 * 60 * 60; // 6 hours in seconds
 
     try {
         const githubToken = process.env.VITE_GITHUB_TOKEN; // Vercel uses process.env
@@ -63,8 +63,8 @@ export default async function handler(req, res) {
             recent_github_activity: structuredData.length > 0 ? structuredData : "No recent public coding activity found. DO NOT MENTION REPOSITORIES OR PROJECTS FROM BACKGROUND KNOWLEDGE."
         };
 
-        // Set caching headers for Vercel Edge Network
-        res.setHeader('Cache-Control', `public, s-maxage=${CACHE_DURATION}, stale-while-revalidate=86400`);
+        // Cache exactly as requested: data cached for 6 hours (21600 seconds) on Vercel CDN
+        res.setHeader('Cache-Control', `s-maxage=${CACHE_DURATION}`);
         res.status(200).json(payload);
     } catch (error) {
         console.error("Serverless Function Error:", error);
