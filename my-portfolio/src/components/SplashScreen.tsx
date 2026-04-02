@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrainCircuit } from 'lucide-react';
+import agentfolioLogo from '../assets/Agentfolio_Logo.png';
 
 interface SplashScreenProps {
     onComplete: () => void;
@@ -44,8 +44,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
                 }}
             >
                 {/* Icon */}
-                <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-[#222] bg-[#0f0f0f]">
-                    <BrainCircuit className="w-8 h-8 sm:w-10 sm:h-10 text-white" strokeWidth={1.5} />
+                <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-[#222] bg-[#0f0f0f] overflow-hidden">
+                    <img src={agentfolioLogo} alt="AgentFolio" className="w-full h-full object-cover" />
                 </div>
 
                 {/* Name */}

@@ -817,34 +817,40 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
             </button>
 
             {/* Input Area */}
-            <div className="pt-2 sm:pt-3 border-t border-[#141414] bg-[#080808] z-20 pb-2 sm:pb-3">
-                <ActionButtons
-                    prompts={suggestPrompts}
-                    onSelect={handleSendMessage}
-                    isDisabled={isTyping || isFetchingTool}
-                />
+            <div className="relative pb-3 z-20">
+                {/* Gradient bleed — dissolves messages into the input card */}
+                <div className="absolute -top-10 left-0 right-0 h-10 bg-gradient-to-b from-transparent to-[#080808] pointer-events-none" />
 
-                <form
-                    onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputValue); }}
-                    className="flex gap-2 mt-2 sm:mt-3 relative items-center bg-[#0f0f0f] p-1.5 rounded-2xl border border-[#1e1e1e] focus-within:border-blue-500/30 focus-within:ring-1 focus-within:ring-blue-500/8 transition-all duration-200"
-                >
-                    <input
-                        type="text"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        placeholder="Ask me anything..."
-                        disabled={isTyping || isFetchingTool}
-                        className="flex-1 bg-transparent text-[#e8e8e8] px-3 py-2 text-sm sm:text-[15px] outline-none placeholder:text-[#363636] font-sans disabled:opacity-40 disabled:cursor-not-allowed"
+                {/* Floating card */}
+                <div className="bg-[#0c0c0c] border border-[#1a1a1a] rounded-2xl p-2 pt-1.5">
+                    <ActionButtons
+                        prompts={suggestPrompts}
+                        onSelect={handleSendMessage}
+                        isDisabled={isTyping || isFetchingTool}
                     />
-                    <button
-                        type="submit"
-                        disabled={!inputValue.trim() || isTyping || isFetchingTool}
-                        className="p-2 sm:p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95 shrink-0"
+
+                    <form
+                        onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputValue); }}
+                        className="flex gap-2 mt-1.5 relative items-center bg-[#111] p-1.5 rounded-xl border border-[#1e1e1e] focus-within:border-blue-500/30 focus-within:ring-1 focus-within:ring-blue-500/8 transition-all duration-200"
                     >
-                        <Send size={14} className="sm:hidden" />
-                        <Send size={15} className="hidden sm:block" />
-                    </button>
-                </form>
+                        <input
+                            type="text"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            placeholder="Ask me anything..."
+                            disabled={isTyping || isFetchingTool}
+                            className="flex-1 bg-transparent text-[#e8e8e8] px-3 py-2 text-sm sm:text-[15px] outline-none placeholder:text-[#363636] font-sans disabled:opacity-40 disabled:cursor-not-allowed"
+                        />
+                        <button
+                            type="submit"
+                            disabled={!inputValue.trim() || isTyping || isFetchingTool}
+                            className="p-2 sm:p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95 shrink-0"
+                        >
+                            <Send size={14} className="sm:hidden" />
+                            <Send size={15} className="hidden sm:block" />
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );
