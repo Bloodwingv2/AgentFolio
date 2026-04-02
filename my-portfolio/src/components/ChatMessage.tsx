@@ -195,7 +195,6 @@ const RichMessageContent: React.FC<{ content: string; onProjectSelect?: (project
                                 h1: ({ node, ...props }: any) => <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 mt-4" {...props} />,
                                 h2: ({ node, ...props }: any) => <h2 className="text-base sm:text-lg md:text-xl font-bold text-white mb-2 mt-4" {...props} />,
                                 h3: ({ node, ...props }: any) => <h3 className="text-sm sm:text-base md:text-lg font-bold text-white mb-1 mt-3" {...props} />,
-                                // Simplified blockquote
                                 blockquote: ({ node, ...props }: any) => <blockquote className="border-l-4 border-gray-700 pl-4 py-1 my-2 italic text-gray-400 text-xs sm:text-sm md:text-base" {...props} />,
                             }}
                         >
@@ -222,22 +221,28 @@ const ChatMessage: React.FC<ChatMessageProps> = React.memo(({ role, content, onP
     }, { scope: containerRef });
 
     return (
-        <div ref={containerRef} className={`flex w-full mb-6 ${role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`flex max-w-[85%] md:max-w-[70%] gap-3 ${role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+        <div ref={containerRef} className={`flex w-full mb-5 ${role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`flex max-w-[88%] md:max-w-[76%] gap-2.5 ${role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
 
                 {/* Avatar */}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${role === 'agent' ? 'bg-white text-black' : 'bg-gray-800 text-gray-300'
-                    }`}>
-                    {role === 'agent' ? <img src={meImg} className='w-8 h-8 rounded-full' /> : <User size={18} />}
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden ${
+                    role === 'agent'
+                        ? 'ring-1 ring-[#222]'
+                        : 'bg-[#181818] border border-[#252525] text-[#525252]'
+                }`}>
+                    {role === 'agent'
+                        ? <img src={meImg} className="w-full h-full object-cover rounded-full" alt="Agent" />
+                        : <User size={15} />
+                    }
                 </div>
 
                 {/* Bubble */}
                 <div className={`flex flex-col gap-1 ${role === 'user' ? 'items-end' : 'items-start'}`}>
-                    <div className={`px-4 py-3 rounded-2xl text-sm md:text-base leading-relaxed ${role === 'agent'
-                        ? 'bg-gray-900 border border-gray-800 text-gray-200 rounded-tl-sm'
-                        : 'bg-white text-black rounded-tr-sm'
-                        }`}>
-                        {/* If content is string and agent, use Rich renderer. Else just render node/string */}
+                    <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                        role === 'agent'
+                            ? 'bg-[#0f0f0f] border border-[#1c1c1c] text-[#d0d0d0] rounded-tl-sm'
+                            : 'bg-white text-black rounded-tr-sm font-medium shadow-sm'
+                    }`}>
                         {role === 'agent' && typeof content === 'string' ? (
                             <RichMessageContent content={content} onProjectSelect={onProjectSelect} />
                         ) : (

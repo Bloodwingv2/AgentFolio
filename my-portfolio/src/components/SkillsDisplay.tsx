@@ -18,39 +18,41 @@ const SkillsDisplay: React.FC<SkillsDisplayProps> = React.memo(({ skills }) => {
 
     useGSAP(() => {
         gsap.from(".skill-section", {
-            y: 20,
+            y: 18,
             opacity: 0,
-            duration: 0.5,
-            stagger: 0.1,
+            duration: 0.45,
+            stagger: 0.08,
             ease: "power2.out"
         });
-    }, { scope: containerRef, dependencies: [] }); // Run only once
+    }, { scope: containerRef, dependencies: [] });
 
     const getIcon = (name: string) => {
         switch (name) {
-            case 'code': return <Code size={20} />;
-            case 'cpu': return <Cpu size={20} />;
-            case 'globe': return <Globe size={20} />;
-            case 'tool': return <Wrench size={20} />;
-            default: return <Code size={20} />;
+            case 'code': return <Code size={16} />;
+            case 'cpu': return <Cpu size={16} />;
+            case 'globe': return <Globe size={16} />;
+            case 'tool': return <Wrench size={16} />;
+            default: return <Code size={16} />;
         }
     };
 
     return (
-        <div ref={containerRef} className="flex flex-col gap-5 sm:gap-8 w-full">
+        <div ref={containerRef} className="flex flex-col gap-5 sm:gap-7 w-full">
             {skills.map((category, idx) => (
                 <div key={idx} className="skill-section">
-                    <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 text-gray-200">
-                        <span className="p-1.5 sm:p-2 bg-gray-800 rounded-lg text-purple-400">
+                    <div className="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
+                        <span className="p-1.5 bg-[#111] rounded-lg text-blue-500/60 border border-[#1e1e1e]">
                             {getIcon(category.icon)}
                         </span>
-                        <h4 className="font-bold text-base sm:text-lg tracking-wide">{category.title}</h4>
+                        <h4 className="font-display text-[12px] sm:text-[13px] tracking-wider text-[#b8b8b8]">
+                            {category.title}
+                        </h4>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2 pl-0 sm:pl-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {category.skills.map((skill, sIdx) => (
                             <span
                                 key={sIdx}
-                                className="px-3 py-1 sm:px-4 sm:py-1.5 bg-black border border-gray-800 rounded-full text-xs sm:text-sm font-medium text-gray-300 hover:border-purple-500 hover:text-white hover:bg-gray-900 transition-all cursor-default"
+                                className="px-3 py-1 sm:px-3.5 sm:py-1.5 bg-[#0d0d0d] border border-[#1e1e1e] rounded-full text-xs sm:text-[13px] font-medium text-[#787878] hover:border-blue-500/30 hover:text-[#d0d0d0] hover:bg-[#111] transition-all duration-150 cursor-default"
                             >
                                 {skill}
                             </span>

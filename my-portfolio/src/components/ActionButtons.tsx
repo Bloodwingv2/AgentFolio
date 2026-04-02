@@ -16,7 +16,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ prompts, onSelect, isDisa
         if (scrollRef.current) {
             const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
             setShowLeftArrow(scrollLeft > 0);
-            // Allow a small buffer (1px) for float calculation errors
             setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
         }
     };
@@ -29,9 +28,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ prompts, onSelect, isDisa
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
-            const scrollAmount = 200; // Approximate width of a few buttons
             scrollRef.current.scrollBy({
-                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                left: direction === 'left' ? -200 : 200,
                 behavior: 'smooth'
             });
         }
@@ -40,16 +38,14 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ prompts, onSelect, isDisa
     return (
         <div className="relative group w-full max-w-full">
             {/* Left Arrow */}
-            <div
-                className={`absolute left-0 top-0 bottom-2 z-10 flex items-center justify-center w-10 transition-opacity duration-300 ${showLeftArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-            >
-                <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent pointer-events-none" />
+            <div className={`absolute left-0 top-0 bottom-2 z-10 flex items-center justify-center w-10 transition-opacity duration-200 ${showLeftArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#080808] to-transparent pointer-events-none" />
                 <button
                     onClick={() => scroll('left')}
-                    className="relative z-10 p-1.5 bg-zinc-900/80 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 rounded-full backdrop-blur-sm transition-all shadow-lg hover:shadow-zinc-900/50 hover:scale-110 active:scale-95"
+                    className="relative z-10 p-1.5 bg-[#111] border border-[#202020] text-[#505050] hover:text-white hover:border-[#303030] rounded-full transition-all"
                     aria-label="Scroll left"
                 >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={14} />
                 </button>
             </div>
 
@@ -57,7 +53,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ prompts, onSelect, isDisa
             <div
                 ref={scrollRef}
                 onScroll={checkScroll}
-                className="flex overflow-x-auto gap-2 pb-2 px-2 scrollbar-hide snap-x snap-mandatory scroll-px-10"
+                className="flex overflow-x-auto gap-1.5 pb-2 px-2 scrollbar-hide snap-x snap-mandatory scroll-px-10"
             >
                 {prompts.map((prompt, index) => (
                     <button
@@ -68,9 +64,11 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ prompts, onSelect, isDisa
                             }
                         }}
                         disabled={isDisabled}
-                        className={`whitespace-nowrap px-3 py-1 sm:px-4 sm:py-1.5 bg-gray-900/60 border border-gray-800/60 rounded-full text-[10px] sm:text-xs text-gray-400 snap-start shrink-0 backdrop-blur-sm transition-all
-                            ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800/80 hover:border-gray-700/80 hover:text-white hover:scale-105 active:scale-95'}
-                        `} // Made prompts slightly more transparent to blend and added disabled styling
+                        className={`whitespace-nowrap px-3 py-1.5 sm:px-3.5 sm:py-1.5 bg-[#0e0e0e] border border-[#1c1c1c] rounded-full text-[11px] sm:text-xs text-[#545454] snap-start shrink-0 transition-all duration-150
+                            ${isDisabled
+                                ? 'opacity-30 cursor-not-allowed'
+                                : 'hover:bg-[#161616] hover:border-[#282828] hover:text-[#c0c0c0] hover:scale-[1.02] active:scale-[0.98] cursor-pointer'
+                            }`}
                     >
                         {prompt}
                     </button>
@@ -78,16 +76,14 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ prompts, onSelect, isDisa
             </div>
 
             {/* Right Arrow */}
-            <div
-                className={`absolute right-0 top-0 bottom-2 z-10 flex items-center justify-center w-10 transition-opacity duration-300 ${showRightArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-            >
-                <div className="absolute inset-0 bg-gradient-to-l from-black to-transparent pointer-events-none" />
+            <div className={`absolute right-0 top-0 bottom-2 z-10 flex items-center justify-center w-10 transition-opacity duration-200 ${showRightArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className="absolute inset-0 bg-gradient-to-l from-[#080808] to-transparent pointer-events-none" />
                 <button
                     onClick={() => scroll('right')}
-                    className="relative z-10 p-1.5 bg-zinc-900/80 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 rounded-full backdrop-blur-sm transition-all shadow-lg hover:shadow-zinc-900/50 hover:scale-110 active:scale-95"
+                    className="relative z-10 p-1.5 bg-[#111] border border-[#202020] text-[#505050] hover:text-white hover:border-[#303030] rounded-full transition-all"
                     aria-label="Scroll right"
                 >
-                    <ChevronRight size={16} />
+                    <ChevronRight size={14} />
                 </button>
             </div>
         </div>

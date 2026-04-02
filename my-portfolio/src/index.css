@@ -1,49 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: 'Outfit', system-ui, sans-serif;
   --font-display: 'Orbitron', system-ui, sans-serif;
-  --color-black: #050505;
-  --color-gray-900: #121212;
-  --color-gray-800: #1E1E1E;
-  --color-gray-700: #2D2D2D;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --color-black: #080808;
+  --color-gray-900: #111111;
+  --color-gray-800: #1a1a1a;
+  --color-gray-700: #272727;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background-color: var(--color-black);
-  color: #ededed;
+  background-color: #080808;
+  color: #ebebeb;
   font-family: var(--font-sans);
   overflow-x: hidden;
+  /* Subtle dot grid for depth — only visible in open negative space */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #333;
+/* Accessible focus rings */
+:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.55);
+  outline-offset: 2px;
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+/* Selection */
+::selection {
+  background: rgba(59, 130, 246, 0.22);
+  color: #fff;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
+/* Custom Scrollbar — slim and refined */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #232323; border-radius: 100px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+* { scrollbar-width: thin; scrollbar-color: #232323 transparent; }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Availability badge pulse */
+@keyframes status-ping {
+  0% { transform: scale(1); opacity: 0.9; }
+  70% { transform: scale(2); opacity: 0; }
+  100% { transform: scale(2); opacity: 0; }
 }
+.animate-status-ping { animation: status-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }

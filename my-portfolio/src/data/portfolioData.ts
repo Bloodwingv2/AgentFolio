@@ -55,6 +55,13 @@ export const portfolioData = {
     profileImage: meImg,
     headerImage: wassertumimg,
 
+    // --- Hero Stats (edit these freely) ---
+    heroStats: [
+        { value: '2', label: 'Companies' },
+        { value: '6+', label: 'Projects' },
+        { value: 'Mannheim', label: 'Location' },
+    ],
+
     bio: `I am a software engineer who loves experimentation, building impactful software, contributing to open source and reading up on tech documentation.
   
 I’m currently a Data Science & AI Grad student at SRH Heidelberg. I build data-driven and AI-powered solutions, combining Data Acquisition, Machine Learning, Backend, DevOps and Cloud Technologies to turn complex data into actionable insights for companies.

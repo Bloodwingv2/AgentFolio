@@ -1,92 +1,64 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { Bot } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 
 interface SplashScreenProps {
     onComplete: () => void;
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
-    const [text, setText] = useState("");
     const containerRef = useRef<HTMLDivElement>(null);
-    const subTextRef = useRef<HTMLParagraphElement>(null);
-    const cursorRef = useRef<HTMLDivElement>(null);
-
-    const fullText = "AgentFolio";
+    const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Bypass splash screen entirely on mobile to save 4s of LCP penalty
         if (window.innerWidth < 768) {
             onComplete();
             return;
         }
 
-        const tl = gsap.timeline();
+        gsap.set(contentRef.current, { opacity: 0, y: 10 });
 
-        // Initial state
-        gsap.set(subTextRef.current, { opacity: 0, y: 10 });
-
-        // Typing Logic
-        let charIndex = 0;
-        const typeInterval = setInterval(() => {
-            if (charIndex <= fullText.length) {
-                setText(fullText.slice(0, charIndex));
-                charIndex++;
-            } else {
-                clearInterval(typeInterval);
-
-                // Sequence after typing finishes
-                tl.to(subTextRef.current, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    delay: 0.2
-                })
-                    .to(containerRef.current, {
-                        opacity: 0,
-                        duration: 0.8,
-                        ease: "power2.inOut",
-                        delay: 1,
-                        onComplete: onComplete
-                    });
-            }
-        }, 150); // Typing speed per character
-
-        return () => clearInterval(typeInterval);
+        gsap.timeline()
+            .to(contentRef.current, {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                ease: 'power2.out',
+            })
+            .to(containerRef.current, {
+                opacity: 0,
+                duration: 0.5,
+                ease: 'power2.inOut',
+                delay: 1.1,
+                onComplete,
+            });
     }, [onComplete]);
 
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black text-white isolate overflow-hidden font-sans"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#080808]"
         >
-            {/* Background Gradients - Removed for cleaner look */}
+            <div ref={contentRef} className="flex flex-col items-center gap-5">
 
-            <div className="relative z-10 flex flex-col items-center">
-                <div className="flex items-center gap-4 sm:gap-6">
-                    {/* Logo */}
-                    <div className="relative flex items-center justify-center">
-                        <div className="absolute inset-0 bg-blue-500 blur-xl opacity-20" /> {/* Reduced opacity, removed pulse */}
-                        <Bot className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-white relative z-10" />
-                    </div>
-
-                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white">
-                        {text}
-                    </h1>
-                    {/* Blinking Cursor */}
-                    <div
-                        ref={cursorRef}
-                        className="w-3 h-10 sm:w-5 sm:h-16 md:w-6 md:h-20 bg-blue-500/80 ml-1 sm:ml-2 animate-pulse rounded-full"
-                    />
+                {/* Icon */}
+                <div className="flex items-center justify-center w-14 h-14 rounded-2xl border border-[#222] bg-[#0f0f0f]">
+                    <BrainCircuit className="w-7 h-7 text-white" strokeWidth={1.5} />
                 </div>
 
-                <p
-                    ref={subTextRef}
-                    className="text-base sm:text-lg md:text-xl text-gray-500 tracking-[0.4em] font-mono uppercase mt-8"
-                >
+                {/* Name */}
+                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white font-display">
+                    AgentFolio
+                </h1>
+
+                {/* Divider */}
+                <div className="w-8 h-px bg-[#252525]" />
+
+                {/* Subtitle */}
+                <p className="text-[11px] text-[#3a3a3a] tracking-[0.45em] font-mono uppercase">
                     Agentic Portfolio
                 </p>
+
             </div>
         </div>
     );

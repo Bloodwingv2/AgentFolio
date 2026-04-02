@@ -671,39 +671,67 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
             {/* Hero Section */}
             <div
                 ref={heroRef}
-                className="flex-1 w-full bg-black flex flex-col items-center justify-center p-4 overflow-y-auto"
+                className="flex-1 w-full flex flex-col items-center justify-center py-6 px-4 overflow-y-auto"
             >
-                <div className="relative mb-4 sm:mb-6 md:mb-8 group">
-                    {/* Background Glow - Removed for cleaner look */}
-                    <img
-                        src={portfolioData.profileImage}
-                        alt={portfolioData.name}
-                        width="192"
-                        height="192"
-                        className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full object-cover border-4 border-gray-900 shadow-2xl relative z-10"
-                        fetchPriority="high"
-                        decoding="sync"
-                        loading="eager"
-                    />
-                    <div className="absolute bottom-2 right-2 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 bg-blue-500 border-4 border-black rounded-full z-20"></div>
-                </div>
-                <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4 text-center tracking-tight">
-                    Hi, I'm {portfolioData.name}
-                </h2>
-                <p className="text-gray-400 text-center max-w-lg md:max-w-xl text-sm sm:text-base leading-relaxed px-4 mb-6 sm:mb-8">
-                    {portfolioData.role}. Ask me anything about my work, skills, or experience.
-                </p>
+                <div className="flex flex-col items-center text-center max-w-sm w-full mx-auto gap-5">
 
-                <button
-                    onClick={onStart}
-                    className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-full text-white transition-all hover:scale-105 active:scale-95 text-sm font-medium backdrop-blur-md group"
-                >
-                    <span className="relative">
-                        <span className="absolute -inset-1 rounded-full bg-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity blur-md"></span>
+                    {/* Profile image — gradient ring */}
+                    <div className="relative">
+                        <div className="p-[2px] rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
+                            <div className="p-[3px] rounded-full bg-[#080808]">
+                                <img
+                                    src={portfolioData.profileImage}
+                                    alt={portfolioData.name}
+                                    width="128"
+                                    height="128"
+                                    className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full object-cover"
+                                    fetchPriority="high"
+                                    decoding="sync"
+                                    loading="eager"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Name + Role */}
+                    <div className="space-y-1.5">
+                        <p className="text-[#484848] text-[11px] font-mono tracking-[0.18em] uppercase">Hi, I'm</p>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.05]">
+                            {portfolioData.name}
+                        </h2>
+                        <p className="text-sm sm:text-base font-medium pt-0.5 bg-gradient-to-r from-blue-400 via-blue-300 to-cyan-400 bg-clip-text text-transparent">
+                            {portfolioData.role}
+                        </p>
+                    </div>
+
+                    {/* Tagline */}
+                    <p className="text-[#545454] text-sm sm:text-[15px] leading-relaxed max-w-xs">
+                        Ask me anything about my work, projects, or experience.
+                    </p>
+
+                    {/* Stats strip */}
+                    <div className="flex items-center gap-5 sm:gap-7 py-3 px-6 rounded-2xl border border-[#161616] bg-[#0d0d0d]">
+                        {portfolioData.heroStats.map((stat, i, arr) => (
+                            <React.Fragment key={stat.label}>
+                                <div className="flex flex-col items-center gap-0.5">
+                                    <span className="text-white font-bold text-base sm:text-lg leading-none">{stat.value}</span>
+                                    <span className="text-[#484848] text-[10px] sm:text-[11px] font-mono">{stat.label}</span>
+                                </div>
+                                {i < arr.length - 1 && <span className="w-px h-7 bg-[#181818]" />}
+                            </React.Fragment>
+                        ))}
+                    </div>
+
+                    {/* CTA */}
+                    <button
+                        onClick={onStart}
+                        className="group flex items-center gap-2.5 px-8 py-3.5 bg-white text-black font-semibold text-sm rounded-xl hover:bg-gray-100 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-white/5"
+                    >
                         Start Chatting
-                    </span>
-                    <Send size={16} className="text-green-400 group-hover:translate-x-1 transition-transform" />
-                </button>
+                        <Send size={14} className="group-hover:translate-x-0.5 transition-transform duration-150" />
+                    </button>
+
+                </div>
             </div>
 
             {/* Messages Area - Initially Hidden via GSAP */}
@@ -725,24 +753,27 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                         />
                     ))}
 
-                    {/* Consolidated Loading / Tool Execution UI */}
+                    {/* Loading / Tool Execution indicator */}
                     {(isTyping || isFetchingTool) && !messages.some(m => m.isStreaming && m.content !== '') && (
-                        <div className="flex w-full mb-6 justify-start">
-                            <div className="flex max-w-[85%] flex-row gap-3">
-                                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white text-black">
-                                    <Terminal size={18} />
+                        <div className="flex w-full mb-5 justify-start">
+                            <div className="flex max-w-[85%] flex-row gap-2.5">
+                                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-[#111] border border-[#1f1f1f] text-[#484848]">
+                                    <Terminal size={15} />
                                 </div>
-                                <div className="flex flex-col gap-2 max-w-full overflow-hidden">
-                                    <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-gray-900 border border-gray-800 text-gray-400 text-sm flex items-center gap-2 w-fit max-w-full">
+                                <div className="flex flex-col gap-1.5 max-w-full overflow-hidden">
+                                    <div className="px-4 py-2.5 rounded-2xl rounded-tl-sm bg-[#0f0f0f] border border-[#1c1c1c] text-gray-400 text-sm flex items-center gap-3 w-fit max-w-full">
                                         <ThinkingVisualizer />
-                                        <span className="text-xs text-gray-500 font-mono self-center ml-2 shrink-0 whitespace-nowrap">Process(pid=404)</span>
+                                        <span className="text-[11px] text-[#404040] font-mono self-center whitespace-nowrap">pid:404</span>
                                     </div>
-
-                                    {/* Sub-status for Tool Execution (ChatGPT Style) */}
                                     {isFetchingTool && (
-                                        <div className="flex flex-wrap items-center gap-2 px-2 text-gray-500 text-xs animate-pulse max-w-full">
-                                            <Activity size={12} className="text-gray-400 shrink-0" />
-                                            <span className="break-all sm:break-normal">Calling function: <span className="font-mono bg-gray-800/50 px-1 rounded">{fakeToolName || "fetch_github_activity"}</span>...</span>
+                                        <div className="flex flex-wrap items-center gap-1.5 px-1 text-[#404040] text-[11px] mt-0.5 max-w-full">
+                                            <Activity size={11} className="text-[#4a4a4a] shrink-0 animate-pulse" />
+                                            <span className="break-all sm:break-normal font-mono">
+                                                calling{' '}
+                                                <span className="text-blue-400/70 bg-blue-500/8 border border-blue-500/15 px-1.5 py-0.5 rounded-md">
+                                                    {fakeToolName || "fetch_github_activity"}
+                                                </span>
+                                            </span>
                                         </div>
                                     )}
                                 </div>
@@ -773,11 +804,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                 isDisabled={isTyping || isFetchingTool}
             />
 
-            {/* Toggle Sidebar Button - Animate with Sidebar (Desktop Only) */}
+            {/* Toggle Sidebar Button - Desktop Only */}
             <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className={`hidden sm:block fixed top-1/2 -translate-y-1/2 z-[60] p-3 text-gray-400 hover:text-white bg-[#171717] border border-[#2f2f2f] transition-all duration-300 ease-out shadow-xl ${isSidebarOpen
-                    ? 'left-72 sm:left-80 rounded-r-xl border-l-[#171717]'
+                className={`hidden sm:block fixed top-1/2 -translate-y-1/2 z-[60] p-2.5 text-[#484848] hover:text-white bg-[#0f0f0f] border border-[#1e1e1e] transition-all duration-300 ease-out shadow-xl hover:border-[#2a2a2a] ${isSidebarOpen
+                    ? 'left-72 sm:left-80 rounded-r-xl border-l-[#0f0f0f]'
                     : 'left-0 rounded-r-xl border-l-0'
                     }`}
                 aria-label="Toggle Menu"
@@ -785,8 +816,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                 {isSidebarOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
             </button>
 
-            {/* Input Area - Always visible but styled to blend */}
-            <div className="pt-2 sm:pt-4 border-t border-gray-800 bg-black z-20 pb-1 sm:pb-2">
+            {/* Input Area */}
+            <div className="pt-2 sm:pt-3 border-t border-[#141414] bg-[#080808] z-20 pb-2 sm:pb-3">
                 <ActionButtons
                     prompts={suggestPrompts}
                     onSelect={handleSendMessage}
@@ -795,23 +826,23 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
 
                 <form
                     onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputValue); }}
-                    className="flex gap-2 mt-2 sm:mt-4 relative items-center bg-gray-900 p-1.5 sm:p-2 rounded-xl border border-gray-800 focus-within:border-gray-600 transition-colors"
+                    className="flex gap-2 mt-2 sm:mt-3 relative items-center bg-[#0f0f0f] p-1.5 rounded-2xl border border-[#1e1e1e] focus-within:border-blue-500/30 focus-within:ring-1 focus-within:ring-blue-500/8 transition-all duration-200"
                 >
                     <input
                         type="text"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        placeholder="Ask something..."
+                        placeholder="Ask me anything..."
                         disabled={isTyping || isFetchingTool}
-                        className="flex-1 bg-transparent text-white px-2 py-1 text-sm sm:text-base outline-none placeholder:text-gray-500 font-sans disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 bg-transparent text-[#e8e8e8] px-3 py-2 text-sm sm:text-[15px] outline-none placeholder:text-[#363636] font-sans disabled:opacity-40 disabled:cursor-not-allowed"
                     />
                     <button
                         type="submit"
                         disabled={!inputValue.trim() || isTyping || isFetchingTool}
-                        className="p-1.5 sm:p-2 bg-white text-black rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="p-2 sm:p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95 shrink-0"
                     >
-                        <Send size={16} className="sm:hidden" />
-                        <Send size={18} className="hidden sm:block" />
+                        <Send size={14} className="sm:hidden" />
+                        <Send size={15} className="hidden sm:block" />
                     </button>
                 </form>
             </div>

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { Briefcase, Calendar, Building2 } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 import type { Experience } from '../data/portfolioData';
 
 interface ExperienceTimelineProps {
@@ -16,70 +16,65 @@ const ExperienceCard: React.FC<{ exp: Experience }> = ({ exp }) => {
     const displayedBullets = isExpanded ? bullets : bullets.slice(0, 2);
 
     return (
-        <div className="relative pl-6 group">
-            {/* ... */}
-            <div className="bg-gray-900/40 border border-gray-800 rounded-xl p-5 hover:bg-gray-900/60 hover:border-gray-700 transition-colors backdrop-blur-sm">
+        <div className="group bg-[#0d0d0d] border border-[#191919] rounded-2xl p-5 hover:bg-[#111] hover:border-[#222] transition-all duration-200">
 
-                {/* Header: Logo + Title */}
-                <div className="flex items-start gap-4 mb-4">
-                    {/* Logo */}
-                    <div className="w-12 h-12 rounded-lg bg-white p-1 flex items-center justify-center shrink-0 border border-gray-700 overflow-hidden">
-                        {exp.logo ? (
-                            <img
-                                src={exp.logo}
-                                alt={`${exp.company} logo`}
-                                className="w-full h-full object-contain"
-                                onError={(e) => {
-                                    (e.target as HTMLImageElement).style.display = 'none';
-                                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                                }}
-                            />
-                        ) : null}
-                        <Building2 className={`text-gray-600 ${exp.logo ? 'hidden' : ''}`} size={24} />
-                    </div>
-
-                    {/* Title Info */}
-                    <div className="flex-1">
-                        <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors flex items-center gap-2">
-                            {exp.role}
-                        </h3>
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-400 mt-1">
-                            <span className="flex items-center gap-1 font-medium text-gray-300">
-                                <Briefcase size={14} />
-                                {exp.company}
-                            </span>
-                            <span className="w-1 h-1 bg-gray-600 rounded-full" />
-                            <span className="flex items-center gap-1 font-mono text-xs">
-                                <Calendar size={12} />
-                                {exp.period}
-                            </span>
-                        </div>
-                    </div>
+            {/* Header */}
+            <div className="flex items-start gap-3 mb-4">
+                {/* Company logo */}
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 overflow-hidden">
+                    {exp.logo ? (
+                        <img
+                            src={exp.logo}
+                            alt={exp.company}
+                            className="w-7 h-7 object-contain"
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                                (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                            }}
+                        />
+                    ) : null}
+                    <Building2 className={`text-gray-400 ${exp.logo ? 'hidden' : ''}`} size={18} />
                 </div>
 
-                {/* Description - Bullet Points */}
-                <div className="space-y-2">
-                    {displayedBullets.map((point, idx) => (
-                        <div key={idx} className="flex gap-2.5 items-start text-gray-400 text-sm leading-relaxed">
-                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500/50 shrink-0" />
-                            <span>{point}</span>
-                        </div>
-                    ))}
+                {/* Role + meta */}
+                <div className="flex-1 min-w-0">
+                    <h3 className="text-[15px] font-bold text-white group-hover:text-blue-300 transition-colors duration-200 leading-snug">
+                        {exp.role}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                        <span className="text-sm text-[#888]">{exp.company}</span>
+                        <span className="w-1 h-1 rounded-full bg-[#2e2e2e] shrink-0" />
+                        <span className="font-mono text-[10px] text-[#555] bg-[#0a0a0a] px-2 py-0.5 rounded-md border border-[#1d1d1d]">
+                            {exp.period}
+                        </span>
+                    </div>
                 </div>
-
-                {hasMore && (
-                    <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="mt-4 text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 py-1 px-2 rounded-md hover:bg-blue-400/10 -ml-2"
-                    >
-                        {isExpanded ? 'Show less' : `Show ${bullets.length - 2} more...`}
-                    </button>
-                )}
-
             </div>
 
-            {/* Timeline Dot positioned relative to the card container */}
-            <div className="absolute -left-[29px] top-2 bg-black border-2 border-gray-700 rounded-full w-4 h-4 group-hover:border-blue-500 group-hover:scale-125 transition-all duration-300 z-10" />
+            {/* Bullet points */}
+            <ul className="space-y-2">
+                {displayedBullets.map((point, idx) => (
+                    <li key={idx} className="flex gap-2.5 items-start">
+                        <span className="mt-[7px] w-1 h-1 rounded-full bg-blue-500/40 shrink-0" />
+                        <span className="text-sm text-[#787878] leading-relaxed">{point}</span>
+                    </li>
+                ))}
+            </ul>
+
+            {hasMore && (
+                <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="mt-3.5 flex items-center gap-1.5 text-[11px] font-mono text-[#505050] hover:text-blue-400/80 transition-colors px-2 py-1 -ml-2 rounded-lg hover:bg-[#141414]"
+                >
+                    <svg
+                        className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                    {isExpanded ? 'Show less' : `${bullets.length - 2} more`}
+                </button>
+            )}
         </div>
     );
 };
@@ -92,18 +87,35 @@ const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ experiences }) 
         if (items) {
             gsap.from(items, {
                 opacity: 0,
-                x: -20,
-                stagger: 0.15,
-                duration: 0.6,
+                x: -12,
+                stagger: 0.12,
+                duration: 0.5,
                 ease: 'power2.out'
             });
         }
     }, { scope: listRef });
 
     return (
-        <div ref={listRef} className="w-full max-w-2xl mx-auto space-y-8 pl-4 border-l-2 border-gray-800 relative">
-            {experiences.map((exp) => (
-                <ExperienceCard key={exp.id} exp={exp} />
+        <div ref={listRef} className="w-full max-w-2xl mx-auto">
+            {experiences.map((exp, i) => (
+                <div key={exp.id} className="flex gap-4">
+
+                    {/* Timeline rail — dot + connecting line */}
+                    <div className="flex flex-col items-center shrink-0 w-5">
+                        {/* Dot aligned with card header */}
+                        <div className="mt-[22px] w-2.5 h-2.5 rounded-full bg-[#080808] border-2 border-[#303030] shrink-0 z-10" />
+                        {/* Vertical line to next card (omit after last) */}
+                        {i < experiences.length - 1 && (
+                            <div className="w-px flex-1 mt-2 bg-[#191919]" />
+                        )}
+                    </div>
+
+                    {/* Card */}
+                    <div className={`flex-1 min-w-0 ${i < experiences.length - 1 ? 'pb-5' : ''}`}>
+                        <ExperienceCard exp={exp} />
+                    </div>
+
+                </div>
             ))}
         </div>
     );

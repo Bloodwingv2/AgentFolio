@@ -12,63 +12,64 @@ const BioCard: React.FC = () => {
         gsap.from(cardRef.current, {
             y: 20,
             opacity: 0,
-            duration: 0.8,
+            duration: 0.7,
             ease: 'power3.out'
         });
     }, { scope: cardRef });
 
     return (
-        <div ref={cardRef} className="max-w-xl mx-auto bg-gray-900/50 border border-gray-800 rounded-2xl overflow-hidden backdrop-blur-sm mt-4">
+        <div ref={cardRef} className="max-w-xl mx-auto bg-[#0c0c0c] border border-[#181818] rounded-2xl overflow-hidden mt-4">
 
             {/* Banner / Cover */}
-
             <div
-                className="h-32 relative bg-cover bg-center"
+                className="h-28 relative bg-cover bg-center"
                 style={{ backgroundImage: `url(${portfolioData.headerImage})` }}
             >
-                <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
-                <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:20px_20px]" />
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
+                <div className="absolute inset-0 bg-grid-white/[0.04] bg-[length:20px_20px]" />
             </div>
 
-            <div className="px-6 pb-6 relative">
-                {/* Profile Image */}
-                <div className="relative -mt-16 mb-4">
-                    <div className="w-32 h-32 rounded-2xl border-4 border-[#0a0a0a] overflow-hidden bg-gray-800 shadow-xl">
-                        <img
-                            src={myImage}
-                            alt={portfolioData.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                                (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(portfolioData.name)}&background=random`;
-                            }}
-                        />
+            <div className="px-5 pb-5 relative">
+                {/* Profile Image — gradient ring */}
+                <div className="relative -mt-14 mb-4">
+                    <div className="w-[88px] h-[88px] p-[2px] rounded-2xl bg-gradient-to-br from-blue-500/70 to-purple-600/40">
+                        <div className="w-full h-full rounded-[14px] border border-[#1a1a1a] overflow-hidden bg-[#111]">
+                            <img
+                                src={myImage}
+                                alt={portfolioData.name}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(portfolioData.name)}&background=random`;
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {/* Header Info */}
-                <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-white mb-1">{portfolioData.name}</h2>
-                    <div className="text-blue-400 font-medium mb-2 flex items-center gap-2">
-                        <Briefcase size={16} />
+                <div className="mb-5">
+                    <h2 className="text-xl font-bold text-white mb-1 tracking-tight">{portfolioData.name}</h2>
+                    <div className="text-blue-400/80 font-medium mb-2 flex items-center gap-1.5 text-sm">
+                        <Briefcase size={13} className="text-blue-500/60" />
                         {portfolioData.role}
                     </div>
-                    <div className="text-gray-500 text-sm flex items-center gap-2">
-                        <MapPin size={16} />
+                    <div className="text-[#484848] text-xs flex items-center gap-1.5 font-mono">
+                        <MapPin size={12} className="text-[#404040]" />
                         {portfolioData.location}
                     </div>
                 </div>
 
                 {/* Bio Text */}
-                <div className="prose prose-invert prose-sm max-w-none text-gray-300 mb-6 leading-relaxed">
-                    {portfolioData.bio.split('\n').map((paragraph, idx) => (
-                        <p key={idx} className="mb-2 last:mb-0">
-                            {paragraph.trim()}
-                        </p>
-                    ))}
+                <div className="text-[#888] text-sm leading-relaxed mb-5 space-y-2">
+                    {portfolioData.bio.split('\n').map((paragraph, idx) => {
+                        const trimmed = paragraph.trim();
+                        if (!trimmed) return null;
+                        return <p key={idx}>{trimmed}</p>;
+                    })}
                 </div>
 
                 {/* Social Links */}
-                <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-800">
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-[#141414]">
                     {portfolioData.socials.map((social) => {
                         const Icon = social.name.includes('GitHub') ? Github :
                             social.name.includes('LinkedIn') ? Linkedin :
@@ -81,9 +82,9 @@ const BioCard: React.FC = () => {
                                 href={social.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-2 px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs text-gray-300 hover:text-white transition-all group"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-[#111] hover:bg-[#161616] border border-[#1e1e1e] hover:border-[#2a2a2a] rounded-xl text-xs text-[#686868] hover:text-white transition-all duration-150 group"
                             >
-                                <Icon size={14} className="text-gray-400 group-hover:text-blue-400 transition-colors" />
+                                <Icon size={12} className="text-[#484848] group-hover:text-blue-400 transition-colors" />
                                 {social.name}
                             </a>
                         );
