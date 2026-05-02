@@ -44,15 +44,19 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick, onB
                     </div>
                 </div>
 
-                {/* Blog Button with Glow */}
-                <button
-                    onClick={onBlogClick}
-                    className="hidden sm:flex blog-glow-button items-center gap-2 px-3.5 sm:px-4 py-2 text-sm font-medium text-white bg-[#0f0f0f] border border-[#1f1f1f] rounded-lg transition-all duration-200 hover:bg-[#151515] hover:border-[#282828] group"
-                    title="View Blog"
-                >
-                    <BookOpen size={15} className="group-hover:text-blue-400 transition-colors" />
-                    <span className="hidden sm:inline text-xs font-medium group-hover:text-blue-300 transition-colors">Blog</span>
-                </button>
+                {/* Blog Button — rotating white-shine border */}
+                <div className="hidden sm:flex blog-shine-wrap rounded-[10px] shrink-0 group">
+                    <button
+                        onClick={onBlogClick}
+                        className="blog-shine-inner"
+                        title="View Blog"
+                    >
+                        <BookOpen size={13} className="text-blue-300/90 group-hover:text-white transition-colors duration-200 shrink-0" />
+                        <span className="font-display font-semibold text-[11px] tracking-wide text-blue-200/90 group-hover:text-white transition-colors duration-200">
+                            Blog
+                        </span>
+                    </button>
+                </div>
 
                 {/* Social links */}
                 <div className="flex items-center gap-1">

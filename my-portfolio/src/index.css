@@ -65,27 +65,75 @@ body, html {
 }
 .animate-status-ping { animation: status-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }
 
-/* Blog button glow animation */
-@keyframes blog-glow {
-  0% {
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3),
-                inset 0 0 8px rgba(59, 130, 246, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 12px 2px rgba(59, 130, 246, 0.5),
-                inset 0 0 12px rgba(59, 130, 246, 0.15);
-  }
-  100% {
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3),
-                inset 0 0 8px rgba(59, 130, 246, 0.1);
-  }
+/* Blog button — rotating white-light shine border */
+@property --shine-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
-.blog-glow-button {
-  animation: blog-glow 3s ease-in-out infinite;
-  position: relative;
+@keyframes shine-rotate {
+  to { --shine-angle: 360deg; }
 }
 
-.blog-glow-button:hover {
-  animation: none;
+/* Outer wrapper: conic-gradient is the animated "border" */
+.blog-shine-wrap {
+  padding: 1.5px;
+  border-radius: 10px;
+  background: conic-gradient(
+    from var(--shine-angle),
+    transparent 0%,
+    transparent 52%,
+    rgba(180, 210, 255, 0.4) 68%,
+    rgba(248, 252, 255, 0.96) 80%,
+    rgba(180, 210, 255, 0.4) 91%,
+    transparent 100%
+  );
+  animation: shine-rotate 2.8s linear infinite;
+  display: flex;
+  align-items: stretch;
+}
+
+.blog-shine-wrap:hover {
+  animation-duration: 1.6s;
+  background: conic-gradient(
+    from var(--shine-angle),
+    transparent 0%,
+    transparent 42%,
+    rgba(190, 215, 255, 0.55) 62%,
+    rgba(255, 255, 255, 1) 78%,
+    rgba(190, 215, 255, 0.55) 93%,
+    transparent 100%
+  );
+}
+
+/* Inner button: dark bg that hides the center, leaves the 1.5px border visible */
+.blog-shine-inner {
+  background: #07090f;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.blog-shine-wrap:hover .blog-shine-inner {
+  background: #0c1120;
+}
+
+/* Blog page transitions */
+@keyframes blog-page-in {
+  0%   { opacity: 0; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.blog-page-enter {
+  animation: blog-page-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
 }

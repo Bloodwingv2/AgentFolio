@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
+import gsap from 'gsap';
 import BlogList from './BlogList';
 import BlogContent from './BlogContent';
 import { blogPosts } from '../data/blogData';
@@ -9,46 +10,55 @@ interface BlogSectionProps {
 
 const BlogSection: React.FC<BlogSectionProps> = ({ onClose }) => {
   const [selectedBlogId, setSelectedBlogId] = useState<string | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const currentBlogIndex = selectedBlogId
-    ? blogPosts.findIndex(post => post.id === selectedBlogId)
+  const currentIndex = selectedBlogId
+    ? blogPosts.findIndex(p => p.id === selectedBlogId)
     : -1;
 
-  const handleSelectBlog = useCallback((blogId: string) => {
-    setSelectedBlogId(blogId);
+  const crossfade = useCallback((action: () => void) => {
+    const el = wrapperRef.current;
+    if (!el) { action(); return; }
+    gsap.to(el, {
+      opacity: 0, duration: 0.13, ease: 'power2.in',
+      onComplete: () => {
+        action();
+        gsap.to(el, { opacity: 1, duration: 0.2, ease: 'power2.out', clearProps: 'opacity' });
+      },
+    });
   }, []);
 
-  const handleNavigate = useCallback((direction: 'prev' | 'next') => {
-    if (currentBlogIndex === -1) return;
-
-    let newIndex: number;
-    if (direction === 'prev') {
-      newIndex = currentBlogIndex === 0 ? blogPosts.length - 1 : currentBlogIndex - 1;
-    } else {
-      newIndex = currentBlogIndex === blogPosts.length - 1 ? 0 : currentBlogIndex + 1;
-    }
-
-    setSelectedBlogId(blogPosts[newIndex].id);
-  }, [currentBlogIndex]);
+  const handleSelectBlog = useCallback((id: string) => {
+    crossfade(() => setSelectedBlogId(id));
+  }, [crossfade]);
 
   const handleBack = useCallback(() => {
-    setSelectedBlogId(null);
-  }, []);
+    crossfade(() => setSelectedBlogId(null));
+  }, [crossfade]);
 
-  if (selectedBlogId) {
-    return (
-      <BlogContent
-        blogId={selectedBlogId}
-        onBack={handleBack}
-        onNavigate={handleNavigate}
-        hasNext={currentBlogIndex < blogPosts.length - 1}
-        hasPrev={currentBlogIndex > 0}
-      />
-    );
-  }
+  const handleNavigate = useCallback((direction: 'prev' | 'next') => {
+    if (currentIndex === -1) return;
+    const next = direction === 'prev'
+      ? (currentIndex === 0 ? blogPosts.length - 1 : currentIndex - 1)
+      : (currentIndex === blogPosts.length - 1 ? 0 : currentIndex + 1);
+    crossfade(() => setSelectedBlogId(blogPosts[next].id));
+  }, [currentIndex, crossfade]);
 
   return (
-    <BlogList onSelectBlog={handleSelectBlog} />
+    <div ref={wrapperRef} className="w-full h-full">
+      {selectedBlogId ? (
+        <BlogContent
+          blogId={selectedBlogId}
+          onBack={handleBack}
+          onClose={onClose}
+          onNavigate={handleNavigate}
+          hasNext={currentIndex < blogPosts.length - 1}
+          hasPrev={currentIndex > 0}
+        />
+      ) : (
+        <BlogList onSelectBlog={handleSelectBlog} onClose={onClose} />
+      )}
+    </div>
   );
 };
 

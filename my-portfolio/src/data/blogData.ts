@@ -1,3 +1,21 @@
+export interface BlogAuthor {
+  name: string;
+  title?: string;
+}
+
+// ─── Content block types ────────────────────────────────────────────────────
+// Add new posts by pushing a BlogPost object to the `blogPosts` array below.
+// Each post's `content` array is made up of the block types listed here.
+export type BlogContent =
+  | { type: 'paragraph'; text: string }
+  | { type: 'heading'; level: 1 | 2 | 3; text: string }
+  | { type: 'image'; url: string; alt: string; caption?: string }
+  | { type: 'code'; language: string; content: string }
+  | { type: 'quote'; text: string; author?: string }
+  | { type: 'list'; items: string[]; ordered?: boolean }
+  | { type: 'callout'; variant: 'info' | 'tip' | 'warning' | 'note'; title?: string; text: string }
+  | { type: 'divider' };
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -5,18 +23,10 @@ export interface BlogPost {
   date: string;
   readTime: string;
   category: string;
+  tags?: string[];
+  author?: BlogAuthor;
   content: BlogContent[];
-  image?: string;
 }
-
-export type BlogContent = 
-  | { type: 'paragraph'; text: string }
-  | { type: 'heading'; level: 1 | 2 | 3; text: string }
-  | { type: 'image'; url: string; alt: string; caption?: string }
-  | { type: 'code'; language: string; content: string }
-  | { type: 'quote'; text: string; author?: string }
-  | { type: 'list'; items: string[]; ordered?: boolean }
-  | { type: 'divider' };
 
 export const blogPosts: BlogPost[] = [
   {
@@ -26,7 +36,8 @@ export const blogPosts: BlogPost[] = [
     date: '2026-05-02',
     readTime: '8 min read',
     category: 'AI/ML',
-    image: 'https://images.unsplash.com/photo-1677442d019cecf8d215b20d5b914a10?w=1200&h=600&fit=crop',
+    tags: ['machine-learning', 'neural-networks', 'career'],
+    author: { name: 'Mirang Bhandari', title: 'Software Engineer & AI Researcher' },
     content: [
       {
         type: 'paragraph',
@@ -44,6 +55,12 @@ export const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         text: 'The first project I worked on was building a simple neural network to classify handwritten digits. While it might sound basic now, it was groundbreaking for me at that time. Seeing the model correctly predict digits from test data gave me an incredible sense of accomplishment and motivated me to dive deeper.'
+      },
+      {
+        type: 'callout',
+        variant: 'tip',
+        title: 'Getting Started',
+        text: 'The best entry point into ML is a well-scoped problem with a small, clean dataset. MNIST, Iris, and Titanic are classics for a reason — they let you focus on the algorithm, not data wrangling.'
       },
       {
         type: 'heading',
@@ -67,6 +84,25 @@ export const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         text: 'Each challenge taught me valuable lessons. I learned that debugging machine learning models is fundamentally different from traditional software debugging. You need to think about data distribution, feature importance, and model assumptions.'
+      },
+      {
+        type: 'code',
+        language: 'python',
+        content: `# A simple neural net in PyTorch — the kind I started with
+import torch
+import torch.nn as nn
+
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(784, 128),
+            nn.ReLU(),
+            nn.Linear(128, 10)
+        )
+
+    def forward(self, x):
+        return self.layers(x)`
       },
       {
         type: 'heading',
@@ -94,6 +130,12 @@ export const blogPosts: BlogPost[] = [
         ordered: true
       },
       {
+        type: 'callout',
+        variant: 'warning',
+        title: 'Common Pitfall',
+        text: 'Overfitting is the silent killer of early ML projects. Always hold out a test set before you start training, and track your validation loss separately from your training loss.'
+      },
+      {
         type: 'heading',
         level: 2,
         text: 'Looking Forward'
@@ -115,11 +157,18 @@ export const blogPosts: BlogPost[] = [
     date: '2026-04-28',
     readTime: '6 min read',
     category: 'Web Development',
-    image: 'https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&h=600&fit=crop',
+    tags: ['react', 'fullstack', 'backend'],
+    author: { name: 'Mirang Bhandari', title: 'Software Engineer & AI Researcher' },
     content: [
       {
         type: 'paragraph',
         text: 'Full stack development is about understanding the complete picture of how web applications work. It\'s not just about knowing JavaScript or Python; it\'s about understanding architecture, databases, APIs, and user experience.'
+      },
+      {
+        type: 'callout',
+        variant: 'info',
+        title: 'What This Post Covers',
+        text: 'A practical walkthrough of how I think about frontend, backend, and the bridge between them — with real patterns I use on every project.'
       },
       {
         type: 'heading',
@@ -163,6 +212,35 @@ export const blogPosts: BlogPost[] = [
         text: 'While the frontend delights users, the backend ensures reliability. Backend development is about handling scalability, security, and data integrity. You need to think about database queries, caching strategies, and API design.'
       },
       {
+        type: 'code',
+        language: 'python',
+        content: `# FastAPI — my go-to backend framework
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class UserCreate(BaseModel):
+    name: str
+    email: str
+
+@app.post("/users")
+async def create_user(user: UserCreate):
+    # validation is automatic via Pydantic
+    return {"id": 1, **user.dict()}`
+      },
+      {
+        type: 'quote',
+        text: 'The best API is the one your frontend developer never has to ask questions about. Design for clarity, not cleverness.',
+        author: 'Mirang Bhandari'
+      },
+      {
+        type: 'callout',
+        variant: 'note',
+        title: 'Personal Preference',
+        text: 'I default to FastAPI + React + PostgreSQL for most projects. The type safety from Pydantic and TypeScript means bugs surface at compile time, not in production.'
+      },
+      {
         type: 'divider'
       },
       {
@@ -173,12 +251,8 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-// Helper function to get blog post by ID
-export const getBlogById = (id: string): BlogPost | undefined => {
-  return blogPosts.find(post => post.id === id);
-};
+export const getBlogById = (id: string): BlogPost | undefined =>
+  blogPosts.find(post => post.id === id);
 
-// Helper function to get all categories
-export const getCategories = (): string[] => {
-  return [...new Set(blogPosts.map(post => post.category))];
-};
+export const getCategories = (): string[] =>
+  [...new Set(blogPosts.map(post => post.category))];
