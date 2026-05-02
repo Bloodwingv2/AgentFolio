@@ -672,9 +672,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
             {/* Hero Section */}
             <div
                 ref={heroRef}
-                className="flex-1 w-full flex flex-col items-center justify-center py-3 sm:py-5 lg:py-6 px-4 overflow-y-auto"
+                className="flex-1 w-full flex flex-col items-center justify-center py-2 sm:py-3 lg:py-4 px-4 overflow-hidden"
             >
-                <div className="flex flex-col items-center text-center max-w-sm w-full mx-auto gap-3 sm:gap-4 lg:gap-5">
+                <div className="flex flex-col items-center text-center max-w-sm w-full mx-auto gap-2 sm:gap-3 lg:gap-4">
 
                     {/* Profile image — gradient ring */}
                     <div className="relative">
