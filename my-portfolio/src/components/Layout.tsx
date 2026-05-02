@@ -1,15 +1,16 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
-import { Github, Linkedin, Twitter, ExternalLink, Menu } from 'lucide-react';
+import { Github, Linkedin, Twitter, ExternalLink, Menu, BookOpen } from 'lucide-react';
 import agentfolioLogo from '../assets/Agentfolio_Logo.png';
 
 interface LayoutProps {
     children: React.ReactNode;
     onHomeClick?: () => void;
     onMenuClick?: () => void;
+    onBlogClick?: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick }) => {
+const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick, onBlogClick }) => {
     return (
         <div className="flex flex-col h-[100dvh] w-full max-w-4xl mx-auto px-3 sm:px-5 font-sans">
             <header className="flex justify-between items-center py-3 sm:py-4 border-b border-[#141414] mb-2 sm:mb-4 z-20 relative shrink-0">
@@ -42,6 +43,16 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick }) =
                         </h1>
                     </div>
                 </div>
+
+                {/* Blog Button with Glow */}
+                <button
+                    onClick={onBlogClick}
+                    className="hidden sm:flex blog-glow-button items-center gap-2 px-3.5 sm:px-4 py-2 text-sm font-medium text-white bg-[#0f0f0f] border border-[#1f1f1f] rounded-lg transition-all duration-200 hover:bg-[#151515] hover:border-[#282828] group"
+                    title="View Blog"
+                >
+                    <BookOpen size={15} className="group-hover:text-blue-400 transition-colors" />
+                    <span className="hidden sm:inline text-xs font-medium group-hover:text-blue-300 transition-colors">Blog</span>
+                </button>
 
                 {/* Social links */}
                 <div className="flex items-center gap-1">

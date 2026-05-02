@@ -10,6 +10,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isBlogOpen, setIsBlogOpen] = useState(false);
 
   return (
     <div className="min-h-[100dvh] bg-black text-white selection:bg-white selection:text-black relative" style={{ zIndex: 1 }}>
@@ -17,7 +18,11 @@ function App() {
       {loading ? (
         <SplashScreen onComplete={() => setLoading(false)} />
       ) : (
-        <Layout onHomeClick={() => setHasStarted(false)} onMenuClick={() => setIsSidebarOpen(true)}>
+        <Layout 
+          onHomeClick={() => { setHasStarted(false); setIsBlogOpen(false); }} 
+          onMenuClick={() => setIsSidebarOpen(true)}
+          onBlogClick={() => setIsBlogOpen(!isBlogOpen)}
+        >
           <ChatInterface
             hasStarted={hasStarted}
             onStart={() => setHasStarted(true)}
@@ -25,6 +30,8 @@ function App() {
             onPromptHandled={() => { }}
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
+            isBlogOpen={isBlogOpen}
+            setIsBlogOpen={setIsBlogOpen}
           />
         </Layout>
       )}

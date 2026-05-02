@@ -8,6 +8,7 @@ import ThinkingVisualizer from './ThinkingVisualizer';
 import Sidebar from './Sidebar';
 import ProjectDetailModal from './ProjectDetailModal';
 import ContactForm from './ContactForm';
+import BlogSection from './BlogSection';
 import { portfolioData, suggestPrompts } from '../data/portfolioData';
 import { Send, Terminal, Menu, ChevronLeft, Activity } from 'lucide-react';
 import { githubActivityToolDefinition, fetchGithubActivity } from './githubAgent';
@@ -28,10 +29,12 @@ interface ChatInterfaceProps {
     onPromptHandled: () => void;
     isSidebarOpen: boolean;
     setIsSidebarOpen: (isOpen: boolean) => void;
+    isBlogOpen: boolean;
+    setIsBlogOpen: (isOpen: boolean) => void;
 }
 
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, activePrompt, onPromptHandled, isSidebarOpen, setIsSidebarOpen }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, activePrompt, onPromptHandled, isSidebarOpen, setIsSidebarOpen, isBlogOpen, setIsBlogOpen }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
@@ -669,7 +672,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
 
     return (
         <div ref={containerRef} className="flex flex-col h-full relative overflow-hidden">
-            {/* Hero Section */}
+            {/* Blog Section - Replaces entire interface when open */}
+            {isBlogOpen && (
+                <div className="w-full h-full bg-black flex flex-col">
+                    <BlogSection onClose={() => setIsBlogOpen(false)} />
+                </div>
+            )}
+
+            {!isBlogOpen && (
+            <>
             <div
                 ref={heroRef}
                 className="flex-1 w-full flex flex-col items-center justify-center py-2 sm:py-3 lg:py-4 px-4 overflow-hidden"
@@ -853,6 +864,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                     </form>
                 </div>
             </div>
+            </>
+            )}
         </div>
     );
 };
