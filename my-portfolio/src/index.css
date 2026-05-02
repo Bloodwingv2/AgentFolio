@@ -127,13 +127,9 @@ body, html {
   background: #0c1120;
 }
 
-/* Blog page transitions */
-@keyframes blog-page-in {
-  0%   { opacity: 0; transform: scale(0.98); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
+/* Blog page — initial hidden state; GSAP drives both enter and exit */
 .blog-page-enter {
-  animation: blog-page-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: scale(0.98);
   will-change: opacity, transform;
 }
