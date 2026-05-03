@@ -244,7 +244,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
       </div>
 
       {/* ── Scrollable Article ───────────────────────────────────────── */}
-      <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto bg-[#f6f6f6]">
+      <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto overscroll-contain bg-[#f6f6f6]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-10 sm:pt-12 pb-16 sm:pb-20">
           <article>
 

@@ -45,14 +45,14 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick, onB
                 </div>
 
                 {/* Blog Button — rotating white-shine border */}
-                <div className="hidden sm:flex blog-shine-wrap rounded-[10px] shrink-0 group">
+                <div className="flex blog-shine-wrap rounded-[10px] shrink-0 group">
                     <button
                         onClick={onBlogClick}
                         className="blog-shine-inner"
                         title="View Blog"
                     >
                         <BookOpen size={13} className="text-blue-300/90 group-hover:text-white transition-colors duration-200 shrink-0" />
-                        <span className="font-display font-semibold text-[11px] tracking-wide text-blue-200/90 group-hover:text-white transition-colors duration-200">
+                        <span className="hidden sm:inline font-display font-semibold text-[11px] tracking-wide text-blue-200/90 group-hover:text-white transition-colors duration-200">
                             Blog
                         </span>
                     </button>

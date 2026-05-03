@@ -93,7 +93,7 @@ const BlogList: React.FC<BlogListProps> = ({ onSelectBlog, onClose }) => {
             <span className="text-sm font-medium hidden sm:inline">Home</span>
           </button>
 
-          <h1 className="font-display text-base sm:text-lg font-bold text-[#111] tracking-tight">
+          <h1 className="font-display text-base sm:text-lg font-bold text-[#111] tracking-tight shrink-0">
             Writings
           </h1>
 
@@ -175,7 +175,7 @@ const BlogList: React.FC<BlogListProps> = ({ onSelectBlog, onClose }) => {
         </aside>
 
         {/* ── Posts list ────────────────────────────────────────────── */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto overscroll-contain">
           <div ref={postsRef} className="bl-posts max-w-2xl mx-auto px-4 sm:px-6 py-7 sm:py-9 space-y-4 sm:space-y-5">
 
             {/* Featured card */}

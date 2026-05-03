@@ -95,7 +95,6 @@ body, html {
 }
 
 .blog-shine-wrap:hover {
-  animation-duration: 1.6s;
   background: conic-gradient(
     from var(--shine-angle),
     transparent 0%,
