@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import agentfolioLogo from '../assets/Agentfolio_Logo.png';
+import agentfolioLogo from '../assets/05-pill-tag-hero.svg';
 
 interface SplashScreenProps {
     onComplete: () => void;
@@ -43,15 +43,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
                     transition: 'opacity 0.45s ease-out, transform 0.45s ease-out',
                 }}
             >
-                {/* Icon */}
-                <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-[#222] bg-[#0f0f0f] overflow-hidden">
-                    <img src={agentfolioLogo} alt="AgentFolio" className="w-full h-full object-cover" />
-                </div>
-
-                {/* Name */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white font-display">
-                    AgentFolio
-                </h1>
+                {/* Logo */}
+                <img src={agentfolioLogo} alt="AgentFolio" className="h-14 sm:h-16 md:h-20 w-auto" />
 
                 {/* Divider */}
                 <div className="w-10 h-px bg-[#252525]" />

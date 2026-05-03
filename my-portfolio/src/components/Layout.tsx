@@ -1,7 +1,7 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
 import { Github, Linkedin, Twitter, ExternalLink, Menu, BookOpen } from 'lucide-react';
-import agentfolioLogo from '../assets/Agentfolio_Logo.png';
+import agentfolioLogo from '../assets/05-pill-tag-dark.svg';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -26,21 +26,15 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick, onB
 
                     {/* Logo */}
                     <div
-                        className="flex items-center gap-2.5 cursor-pointer group"
+                        className="flex items-center cursor-pointer group"
                         onClick={onHomeClick}
                         title="Back to Home"
                     >
-                        <div
-                            className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-[#222] group-hover:border-[#333] transition-colors"
-                            style={{
-                                backgroundImage: `url(${agentfolioLogo})`,
-                                backgroundSize: '178%',
-                                backgroundPosition: 'center',
-                            }}
+                        <img
+                            src={agentfolioLogo}
+                            alt="AgentFolio"
+                            className="h-8 sm:h-9 w-auto transition-opacity duration-200 group-hover:opacity-80"
                         />
-                        <h1 className="text-base sm:text-[17px] font-bold font-display tracking-tight leading-none">
-                            <span className="text-white group-hover:text-blue-300 transition-colors duration-200">AgentFolio</span>
-                        </h1>
                     </div>
                 </div>
 

@@ -30,222 +30,130 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    id: 'my-journey-ai',
-    title: 'My Journey into AI and Machine Learning',
-    excerpt: 'Exploring how I started my journey in artificial intelligence, the challenges I faced, and lessons learned along the way.',
-    date: '2026-05-02',
-    readTime: '8 min read',
-    category: 'AI/ML',
-    tags: ['machine-learning', 'neural-networks', 'career'],
-    author: { name: 'Mirang Bhandari', title: 'Software Engineer & AI Researcher' },
+    id: 'qhack-tenderflow',
+    title: 'Building TenderFlow at Q-Hack',
+    excerpt: 'How our team built an AI-powered RFP automation platform in 24 hours — slashing tender costs from €25k to ~€100 in tokens.',
+    date: '2026-05-03',
+    readTime: '5 min read',
+    category: 'Hackathon',
+    tags: ['langgraph', 'ai-agents', 'llm', 'hackathon'],
+    author: { name: 'Mirang Bhandari', title: 'Software Engineer' },
     content: [
       {
         type: 'paragraph',
-        text: 'When I first started my career, I was fascinated by the possibilities of artificial intelligence. The idea that machines could learn, adapt, and solve complex problems seemed almost magical. Little did I know that this curiosity would shape my entire professional journey.'
+        text: 'Q-Hack was a challenge set by ISTAR.AI — a competitive, invite-only hackathon where teams were screened before even getting in the door. The brief: build something that meaningfully applies AI to a real business problem. We picked one of the most overlooked pain points in the enterprise world — government tender responses.'
       },
       {
         type: 'heading',
         level: 2,
-        text: 'The Beginning'
+        text: 'The Problem'
       },
       {
         type: 'paragraph',
-        text: 'My interest in AI started during my university days when I took my first machine learning course. The combination of mathematics, programming, and problem-solving resonated with me immediately. I spent countless hours experimenting with different algorithms, datasets, and techniques.'
-      },
-      {
-        type: 'paragraph',
-        text: 'The first project I worked on was building a simple neural network to classify handwritten digits. While it might sound basic now, it was groundbreaking for me at that time. Seeing the model correctly predict digits from test data gave me an incredible sense of accomplishment and motivated me to dive deeper.'
-      },
-      {
-        type: 'callout',
-        variant: 'tip',
-        title: 'Getting Started',
-        text: 'The best entry point into ML is a well-scoped problem with a small, clean dataset. MNIST, Iris, and Titanic are classics for a reason — they let you focus on the algorithm, not data wrangling.'
-      },
-      {
-        type: 'heading',
-        level: 2,
-        text: 'Overcoming Challenges'
-      },
-      {
-        type: 'paragraph',
-        text: 'The path to mastering AI was not straightforward. I encountered numerous challenges:'
-      },
-      {
-        type: 'list',
-        items: [
-          'Understanding complex mathematical concepts behind algorithms',
-          'Working with large, messy datasets and preprocessing them effectively',
-          'Hyperparameter tuning and model optimization',
-          'Balancing theory with practical implementation',
-          'Staying updated with rapid advancements in the field'
-        ]
-      },
-      {
-        type: 'paragraph',
-        text: 'Each challenge taught me valuable lessons. I learned that debugging machine learning models is fundamentally different from traditional software debugging. You need to think about data distribution, feature importance, and model assumptions.'
-      },
-      {
-        type: 'code',
-        language: 'python',
-        content: `# A simple neural net in PyTorch — the kind I started with
-import torch
-import torch.nn as nn
-
-class SimpleNet(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.layers = nn.Sequential(
-            nn.Linear(784, 128),
-            nn.ReLU(),
-            nn.Linear(128, 10)
-        )
-
-    def forward(self, x):
-        return self.layers(x)`
-      },
-      {
-        type: 'heading',
-        level: 2,
-        text: 'Key Learnings'
-      },
-      {
-        type: 'quote',
-        text: 'The best part about AI is that it forces you to think differently about problems. You cannot just write code and hope it works; you need to understand the underlying mathematics and the data.',
-        author: 'Lessons from Experience'
-      },
-      {
-        type: 'paragraph',
-        text: 'Through my journey, I learned that:'
-      },
-      {
-        type: 'list',
-        items: [
-          'Data quality is more important than model complexity',
-          'Understanding your data comes before building models',
-          'Iteration and experimentation are key to success',
-          'Communication of results is as important as the results themselves',
-          'The field evolves rapidly, so continuous learning is essential'
-        ],
-        ordered: true
-      },
-      {
-        type: 'callout',
-        variant: 'warning',
-        title: 'Common Pitfall',
-        text: 'Overfitting is the silent killer of early ML projects. Always hold out a test set before you start training, and track your validation loss separately from your training loss.'
-      },
-      {
-        type: 'heading',
-        level: 2,
-        text: 'Looking Forward'
-      },
-      {
-        type: 'paragraph',
-        text: 'As I continue my journey in AI, I\'m excited about the possibilities ahead. From natural language processing to computer vision, from reinforcement learning to generative models, there\'s always something new to explore. My goal is to contribute to making AI more accessible and beneficial for everyone.'
-      },
-      {
-        type: 'paragraph',
-        text: 'If you\'re interested in AI and machine learning, my advice would be: start building. Don\'t get caught up in learning every algorithm first. Pick a problem, get some data, and start experimenting. The learning will come naturally through practice.'
-      }
-    ]
-  },
-  {
-    id: 'full-stack-insights',
-    title: 'Full Stack Development: From Frontend to Backend',
-    excerpt: 'My insights on building complete applications, handling both client-side and server-side challenges.',
-    date: '2026-04-28',
-    readTime: '6 min read',
-    category: 'Web Development',
-    tags: ['react', 'fullstack', 'backend'],
-    author: { name: 'Mirang Bhandari', title: 'Software Engineer & AI Researcher' },
-    content: [
-      {
-        type: 'paragraph',
-        text: 'Full stack development is about understanding the complete picture of how web applications work. It\'s not just about knowing JavaScript or Python; it\'s about understanding architecture, databases, APIs, and user experience.'
+        text: 'Responding to a government RFP (Request for Proposal) is brutal. A single tender can take weeks of work from multiple consultants, lawyers, and domain experts. The going rate? €20,000 to €30,000 per submission — and that\'s before you\'ve won a single contract. Most of that cost is just writing: rephrasing past proposals, assembling team CVs, reformatting methodology docs.'
       },
       {
         type: 'callout',
         variant: 'info',
-        title: 'What This Post Covers',
-        text: 'A practical walkthrough of how I think about frontend, backend, and the bridge between them — with real patterns I use on every project.'
+        title: 'The Opportunity',
+        text: 'If 80% of tender writing is retrieving and reformatting existing content, an LLM with a good knowledge base can do that draft in minutes — not weeks.'
       },
       {
         type: 'heading',
         level: 2,
-        text: 'What Does Full Stack Mean?'
+        text: 'What We Built'
       },
       {
         type: 'paragraph',
-        text: 'Full stack development encompasses everything from the user interface that users interact with to the databases that store data. As a full stack developer, you need to understand:'
+        text: 'TenderFlow is an AI agent that takes a raw RFP document and produces a structured, high-quality draft response — in under 24 hours. It pulls from an organisation\'s internal knowledge base (past tenders, CVs, methodology docs) using vector search, drafts each section with Claude, scores the output across seven quality dimensions, and then hands control back to a human reviewer before anything goes out the door.'
       },
       {
         type: 'list',
         items: [
-          'Frontend technologies (HTML, CSS, JavaScript frameworks)',
-          'Backend frameworks and APIs',
-          'Database design and optimization',
-          'DevOps and deployment',
-          'Security best practices'
+          'Automated RFP analysis — extracts requirements and compliance checklists',
+          'pgvector-powered knowledge base retrieval over internal documents',
+          'Multi-section drafting with source traceability',
+          'Quality scoring across track record, methodology, team, compliance, and pricing',
+          'Human-in-the-loop review with up to 3 iteration rounds',
+          'DOCX export ready for submission'
         ]
       },
       {
         type: 'heading',
         level: 2,
-        text: 'The Frontend Perspective'
+        text: 'The Stack'
       },
       {
         type: 'paragraph',
-        text: 'Modern frontend development has evolved significantly. With frameworks like React, Vue, and Angular, building interactive user interfaces has become more structured and maintainable.'
-      },
-      {
-        type: 'paragraph',
-        text: 'When developing frontends, I always keep these principles in mind: performance matters, accessibility is not optional, and user experience is paramount. Every decision you make affects how users interact with your application.'
-      },
-      {
-        type: 'heading',
-        level: 2,
-        text: 'The Backend Reality'
-      },
-      {
-        type: 'paragraph',
-        text: 'While the frontend delights users, the backend ensures reliability. Backend development is about handling scalability, security, and data integrity. You need to think about database queries, caching strategies, and API design.'
+        text: 'The core of TenderFlow is a six-node LangGraph workflow. LangGraph let us model the tender process as an explicit state machine — each node does one job, the graph handles routing, and PostgreSQL checkpointing means the workflow survives restarts.'
       },
       {
         type: 'code',
         language: 'python',
-        content: `# FastAPI — my go-to backend framework
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+        content: `# Simplified LangGraph workflow
+from langgraph.graph import StateGraph
 
-app = FastAPI()
+workflow = StateGraph(TenderState)
 
-class UserCreate(BaseModel):
-    name: str
-    email: str
+workflow.add_node("analyse_tender",  analyse_tender)
+workflow.add_node("retrieve_context", retrieve_context)
+workflow.add_node("draft_sections",  draft_sections)
+workflow.add_node("human_review",    human_review)   # HITL interrupt
+workflow.add_node("polish",          polish_sections)
+workflow.add_node("export",          export_docx)
 
-@app.post("/users")
-async def create_user(user: UserCreate):
-    # validation is automatic via Pydantic
-    return {"id": 1, **user.dict()}`
+# graph pauses at human_review — resumes via API after edits
+workflow.add_edge("draft_sections", "human_review")
+workflow.add_edge("human_review",   "polish")`
       },
       {
-        type: 'quote',
-        text: 'The best API is the one your frontend developer never has to ask questions about. Design for clarity, not cleverness.',
-        author: 'Mirang Bhandari'
+        type: 'paragraph',
+        text: 'We routed different LLM calls to different Claude models based on complexity. Opus handled the heavy analysis work — extracting requirements, building compliance checklists, scoring. Sonnet handled section drafting. Haiku processed simple, structured documents like company profiles where speed mattered more than depth.'
       },
       {
         type: 'callout',
-        variant: 'note',
-        title: 'Personal Preference',
-        text: 'I default to FastAPI + React + PostgreSQL for most projects. The type safety from Pydantic and TypeScript means bugs surface at compile time, not in production.'
+        variant: 'tip',
+        title: 'Model Routing',
+        text: 'Not every LLM call needs your best model. Routing by task type — not just prompt complexity — cuts latency and cost significantly without hurting output quality.'
+      },
+      {
+        type: 'heading',
+        level: 2,
+        text: 'The Human-in-the-Loop Part'
+      },
+      {
+        type: 'paragraph',
+        text: 'Full automation was never the goal. Tenders are legal documents — you need a human to sign off. LangGraph\'s interrupt_before mechanism let us pause the workflow mid-execution, surface the draft in a split-pane review UI alongside the original RFP, and then resume exactly where it left off after the reviewer made edits. The state was persisted in Supabase the whole time, so nothing was lost between sessions.'
+      },
+      {
+        type: 'quote',
+        text: 'Automating 80% of the work and making the remaining 20% fast and focused is a better product than trying to automate 100%.',
+        author: 'Mirang Bhandari'
+      },
+      {
+        type: 'heading',
+        level: 2,
+        text: 'The Numbers'
+      },
+      {
+        type: 'paragraph',
+        text: 'A typical tender submission costs €20k–€30k in consultant time. TenderFlow brings that down to roughly €100 in API tokens — with a human reviewer still in the loop for quality and compliance. That\'s not a marginal improvement; it\'s a different order of magnitude.'
       },
       {
         type: 'divider'
       },
       {
+        type: 'heading',
+        level: 2,
+        text: 'Beyond the Build'
+      },
+      {
         type: 'paragraph',
-        text: 'Building full stack applications is rewarding because you see the direct impact of your work from end to end. You understand why certain architectural decisions are made and can optimize accordingly.'
+        text: 'We pitched TenderFlow to an investor panel at the end of the hackathon. The conversations that followed were as valuable as the build itself — talking with Y Combinator-backed founders about time-to-market, token economics, and what "profitability in the AI era" actually means when your infrastructure cost is measured in API calls.'
+      },
+      {
+        type: 'paragraph',
+        text: 'The thing I took away from Q-Hack: the best AI products right now aren\'t about replacing humans — they\'re about removing the tedious parts of a job so the expert can focus on the 20% that actually requires their judgement. That\'s what TenderFlow does, and it\'s a pattern worth building on.'
       }
     ]
   }
