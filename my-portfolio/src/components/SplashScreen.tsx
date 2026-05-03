@@ -1,58 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import agentfolioLogo from '../assets/05-pill-tag-hero.svg';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import heroIcon from '../assets/05-pill-tag-hero.svg';
 
 interface SplashScreenProps {
     onComplete: () => void;
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
-    const [visible, setVisible] = useState(false);
-    const [exiting, setExiting] = useState(false);
+    const rootRef    = useRef<HTMLDivElement>(null);
+    const iconRef    = useRef<HTMLDivElement>(null);
+    const wordRef    = useRef<HTMLSpanElement>(null);
+    const subRef     = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (window.innerWidth < 768) {
-            onComplete();
-            return;
-        }
+        if (window.innerWidth < 768) { onComplete(); return; }
 
-        const rafId = requestAnimationFrame(() => setVisible(true));
-        const exitTimer = setTimeout(() => setExiting(true), 1500);
-        const doneTimer = setTimeout(onComplete, 1950);
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-        return () => {
-            cancelAnimationFrame(rafId);
-            clearTimeout(exitTimer);
-            clearTimeout(doneTimer);
-        };
+            tl
+                .fromTo(iconRef.current,
+                    { opacity: 0, scale: 0.78, y: 10 },
+                    { opacity: 1, scale: 1,    y: 0,  duration: 0.5 })
+                .fromTo(wordRef.current,
+                    { opacity: 0, x: -16, filter: 'blur(6px)' },
+                    { opacity: 1, x: 0,   filter: 'blur(0px)', duration: 0.42 },
+                    '-=0.28')
+                .fromTo(subRef.current,
+                    { opacity: 0, y: 8 },
+                    { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
+                    '-=0.1')
+                // hold
+                .to({}, { duration: 0.75 })
+                // exit — whole screen fades fast
+                .to(rootRef.current, {
+                    opacity: 0,
+                    duration: 0.28,
+                    ease: 'power2.in',
+                    onComplete,
+                });
+        }, rootRef);
+
+        return () => ctx.revert();
     }, [onComplete]);
 
     return (
         <div
+            ref={rootRef}
             className="fixed inset-0 z-50 flex items-center justify-center bg-[#080808]"
-            style={{
-                opacity: exiting ? 0 : 1,
-                transition: 'opacity 0.4s ease-in-out',
-                pointerEvents: 'none',
-            }}
+            style={{ pointerEvents: 'none' }}
         >
-            <div
-                className="flex flex-col items-center gap-5"
-                style={{
-                    opacity: visible ? 1 : 0,
-                    transform: visible ? 'translateY(0)' : 'translateY(10px)',
-                    transition: 'opacity 0.45s ease-out, transform 0.45s ease-out',
-                }}
-            >
-                {/* Logo */}
-                <img src={agentfolioLogo} alt="AgentFolio" className="h-14 sm:h-16 md:h-20 w-auto" />
+            <div className="flex flex-col items-center gap-6">
 
-                {/* Divider */}
-                <div className="w-10 h-px bg-[#252525]" />
+                {/* Icon + wordmark */}
+                <div className="flex items-center gap-5">
 
-                {/* Subtitle */}
-                <p className="text-[11px] sm:text-xs tracking-[0.45em] text-[#3a3a3a] font-mono uppercase">
-                    Agentic Portfolio
-                </p>
+                    {/* Icon with ambient teal glow */}
+                    <div ref={iconRef} className="relative opacity-0">
+                        <div className="absolute inset-0 rounded-2xl bg-[#00c8c8]/15 blur-2xl scale-125 pointer-events-none" />
+                        <img
+                            src={heroIcon}
+                            alt="AF"
+                            className="relative h-14 sm:h-16 md:h-[72px] w-auto"
+                        />
+                    </div>
+
+                    {/* Wordmark */}
+                    <span
+                        ref={wordRef}
+                        className="text-[42px] sm:text-5xl md:text-6xl font-bold text-white font-sans tracking-tight leading-none opacity-0"
+                    >
+                        AgentFolio
+                    </span>
+                </div>
+
+                {/* Subtitle with flanking lines */}
+                <div ref={subRef} className="flex items-center gap-3 opacity-0">
+                    <div className="w-8 h-px bg-[#242424]" />
+                    <p className="text-[11px] sm:text-[12px] text-[#383838] font-sans font-medium tracking-[0.28em] uppercase">
+                        An Agentic Portfolio
+                    </p>
+                    <div className="w-8 h-px bg-[#242424]" />
+                </div>
+
             </div>
         </div>
     );

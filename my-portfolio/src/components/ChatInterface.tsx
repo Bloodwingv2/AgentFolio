@@ -51,8 +51,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
     const shouldAutoScrollRef = useRef(true);
 
     const scrollToBottom = (instant = false) => {
-        if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({ behavior: instant ? 'auto' : 'smooth' });
+        const el = messagesContainerRef.current;
+        if (!el) return;
+        const target = el.scrollHeight - el.clientHeight;
+        if (instant) {
+            el.scrollTop = target;
+        } else {
+            gsap.to(el, {
+                scrollTop: target,
+                duration: 0.55,
+                ease: 'power3.out',
+                overwrite: 'auto',
+            });
         }
     };
 
@@ -120,10 +130,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
         }
     }, [messages.length, hasStarted]);
 
-    // Auto-scroll during streaming (only if already at bottom)
+    // Auto-scroll during streaming — only if user hasn't scrolled up
     useEffect(() => {
         if (isTyping && shouldAutoScrollRef.current) {
-            scrollToBottom(true); // Instant scroll to prevent jitter
+            scrollToBottom(true);
         }
     }, [messages, isTyping]);
 
@@ -136,6 +146,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
             setInputValue("");
             return;
         }
+
+        shouldAutoScrollRef.current = true;
+        scrollToBottom();
 
         if (!hasStarted) {
             onStart();
