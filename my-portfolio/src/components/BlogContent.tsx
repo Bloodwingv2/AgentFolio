@@ -11,6 +11,47 @@ interface BlogContentProps {
   hasPrev: boolean;
 }
 
+// ── Syntax highlighter ──────────────────────────────────────────────────────
+const PY_KEYWORDS = new Set([
+  'def','class','import','from','return','if','elif','else','for','while',
+  'in','not','and','or','is','True','False','None','async','await','with',
+  'as','pass','lambda','yield','try','except','finally','raise','del',
+  'global','nonlocal','assert','break','continue',
+]);
+const JS_KEYWORDS = new Set([
+  'const','let','var','function','return','if','else','for','while','in',
+  'of','class','extends','import','export','default','from','async','await',
+  'new','this','true','false','null','undefined','type','interface',
+  'implements','try','catch','finally','throw','break','continue','typeof',
+  'instanceof','void','static','get','set','super',
+]);
+
+const TOKEN_RE = /(#[^\n]*|\/\/[^\n]*)|("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)|(\b\d+(?:\.\d+)?\b)|([a-zA-Z_]\w*)/g;
+
+function highlight(code: string, lang: string): React.ReactNode[] {
+  const keywords = lang === 'python' ? PY_KEYWORDS : JS_KEYWORDS;
+  const nodes: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  TOKEN_RE.lastIndex = 0;
+
+  while ((m = TOKEN_RE.exec(code)) !== null) {
+    if (m.index > last) nodes.push(code.slice(last, m.index));
+    const [full, comment, str, num, word] = m;
+
+    if (comment)  nodes.push(<span key={m.index} style={{ color: '#6a9955' }}>{full}</span>);
+    else if (str) nodes.push(<span key={m.index} style={{ color: '#ce9178' }}>{full}</span>);
+    else if (num) nodes.push(<span key={m.index} style={{ color: '#b5cea8' }}>{full}</span>);
+    else if (word && keywords.has(word))
+                  nodes.push(<span key={m.index} style={{ color: '#569cd6' }}>{full}</span>);
+    else          nodes.push(full);
+
+    last = m.index + full.length;
+  }
+  if (last < code.length) nodes.push(code.slice(last));
+  return nodes;
+}
+
 // Callout styles — light theme equivalents
 const CALLOUT = {
   info:    { icon: 'ℹ',  label: 'Info',    wrap: 'bg-blue-50  border-blue-200',  title: 'text-blue-800',  body: 'text-blue-700' },
@@ -94,8 +135,8 @@ const BlogContent: React.FC<BlogContentProps> = ({
               <div className="w-14" />
             </div>
             <pre className="bg-[#161616] px-5 py-4 overflow-x-auto">
-              <code className="text-[12.5px] sm:text-[13px] font-mono text-[#8ec07c] leading-relaxed whitespace-pre">
-                {block.content}
+              <code className="text-[12.5px] sm:text-[13px] font-mono text-[#d4d4d4] leading-relaxed whitespace-pre">
+                {highlight(block.content, block.language)}
               </code>
             </pre>
           </div>
@@ -255,7 +296,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
               </span>
               {post.tags?.map(tag => (
                 <span key={tag} className="px-2.5 py-1 bg-white border border-[#e0e0e0] rounded-md text-[10px] font-mono text-[#888]">
-                  #{tag}
+                  {tag}
                 </span>
               ))}
             </div>
@@ -266,19 +307,14 @@ const BlogContent: React.FC<BlogContentProps> = ({
             </h1>
 
             {/* Author + Meta */}
-            <div className="flex items-center gap-3.5 py-4 border-y border-[#ebebeb] mb-10">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold font-display text-sm shrink-0 select-none">
-                {(post.author?.name ?? 'M')[0]}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-[#111] font-sans">
+            <div className="flex items-center justify-between py-4 border-y border-[#ebebeb] mb-10">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] text-[#111] font-sans uppercase tracking-widest">Written by</span>
+                <span className="text-sm text-[#111] font-sans italic font-medium">
                   {post.author?.name ?? 'Mirang Bhandari'}
-                </p>
-                {post.author?.title && (
-                  <p className="text-[11px] text-[#888] font-mono mt-0.5">{post.author.title}</p>
-                )}
+                </span>
               </div>
-              <div className="flex items-center gap-3 text-[12px] text-[#aaa] shrink-0">
+              <div className="flex items-center gap-3 text-[12px] text-[#111] shrink-0">
                 <span className="flex items-center gap-1.5">
                   <Calendar size={11} />
                   <span className="hidden sm:inline">
@@ -288,7 +324,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
                     {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </span>
                 </span>
-                <span className="text-[#ddd]">·</span>
+                <span className="text-[#ccc]">·</span>
                 <span className="flex items-center gap-1.5">
                   <Clock size={11} />
                   {post.readTime}
