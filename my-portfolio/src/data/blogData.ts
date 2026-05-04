@@ -1,6 +1,6 @@
 import qhackImg from '../assets/q-hack.jpg';
 import preview_tender from '../assets/preview_tender.png'
-import q_hack_img from '../assets/q-hack.jpeg'
+import q_hack_img from '../assets/q-hack_venue.jpg'
 
 export interface BlogAuthor {
   name: string;

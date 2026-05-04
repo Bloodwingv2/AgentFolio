@@ -232,10 +232,12 @@ const BlogContent: React.FC<BlogContentProps> = ({
       // ── Inline image ─────────────────────────────────────────────────────
       case 'image':
         return (
-          <figure key={idx} className="my-8 sm:my-10">
+          <figure key={idx} className="my-8 sm:my-10 rounded-xl bg-[#efefef]">
             <img
               src={block.url}
               alt={block.alt}
+              loading="lazy"
+              decoding="async"
               onClick={() => openLightbox(block.url, block.alt)}
               className="w-full h-auto block rounded-xl border border-[#e5e5e5] shadow-sm cursor-zoom-in transition-opacity duration-200 hover:opacity-90"
             />
