@@ -39,7 +39,8 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick, onB
                 </div>
 
                 {/* Blog Button — rotating white-shine border */}
-                <div className="flex blog-shine-wrap rounded-[10px] shrink-0 group">
+                <div className="relative flex blog-shine-wrap rounded-[10px] shrink-0 group">
+                    <span className="sm:hidden absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-400 z-10 pointer-events-none" />
                     <button
                         onClick={onBlogClick}
                         className="blog-shine-inner"
