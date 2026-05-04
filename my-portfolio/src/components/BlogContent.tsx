@@ -272,7 +272,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
 
       {/* ── Navigation Bar ───────────────────────────────────────────── */}
       <div className="bg-white border-b border-[#e8e8e8] shrink-0">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 h-13 py-3 flex items-center justify-between gap-3">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
 
           {/* Left: back to list + home — both clearly visible */}
           <div className="flex items-center gap-2">
@@ -320,7 +320,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
       </div>
 
       {/* ── Scrollable Article ───────────────────────────────────────── */}
-      <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto overscroll-contain bg-[#f6f6f6]">
+      <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain bg-[#f6f6f6]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-10 sm:pt-12 pb-16 sm:pb-20">
           <article>
 
@@ -337,19 +337,19 @@ const BlogContent: React.FC<BlogContentProps> = ({
             </div>
 
             {/* Title */}
-            <h1 className="font-display text-[28px] sm:text-[36px] lg:text-[42px] font-bold text-[#111] leading-[1.1] tracking-tight mb-7">
+            <h1 className="font-display text-[24px] sm:text-[32px] lg:text-[40px] font-bold text-[#111] leading-[1.15] tracking-tight mb-7 break-words">
               {post.title}
             </h1>
 
             {/* Author + Meta */}
-            <div className="flex items-center justify-between py-4 border-y border-[#ebebeb] mb-10">
-              <div className="flex flex-col gap-0.5">
+            <div className="flex items-center justify-between py-4 border-y border-[#ebebeb] mb-10 gap-3">
+              <div className="flex flex-col gap-0.5 flex-1 min-w-0">
                 <span className="text-[11px] text-[#111] font-sans uppercase tracking-widest">Written by</span>
-                <span className="text-sm text-[#111] font-sans italic font-medium">
+                <span className="text-sm text-[#111] font-sans italic font-medium truncate">
                   {post.author?.name ?? 'Mirang Bhandari'}
                 </span>
               </div>
-              <div className="flex items-center gap-3 text-[12px] text-[#111] shrink-0">
+              <div className="flex items-center gap-2 sm:gap-3 text-[12px] text-[#111] shrink-0">
                 <span className="flex items-center gap-1.5">
                   <Calendar size={11} />
                   <span className="hidden sm:inline">

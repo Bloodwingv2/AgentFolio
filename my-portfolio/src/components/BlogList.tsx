@@ -175,7 +175,7 @@ const BlogList: React.FC<BlogListProps> = ({ onSelectBlog, onClose }) => {
         </aside>
 
         {/* ── Posts list ────────────────────────────────────────────── */}
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain">
           <div ref={postsRef} className="bl-posts max-w-2xl mx-auto px-4 sm:px-6 py-7 sm:py-9 space-y-4 sm:space-y-5">
 
             {/* Featured card */}
@@ -209,7 +209,11 @@ const BlogList: React.FC<BlogListProps> = ({ onSelectBlog, onClose }) => {
 
                 <div className="flex items-center justify-between pt-4 border-t border-[#f0f0f0]">
                   <div className="flex items-center gap-4 text-[12px] text-[#aaa]">
-                    <span className="flex items-center gap-1.5"><Calendar size={11} />{fmt(featured.date)}</span>
+                    <span className="flex items-center gap-1.5">
+                      <Calendar size={11} />
+                      <span className="hidden sm:inline">{fmt(featured.date)}</span>
+                      <span className="sm:hidden">{fmtS(featured.date)}</span>
+                    </span>
                     <span className="flex items-center gap-1.5"><Clock size={11} />{featured.readTime}</span>
                   </div>
                   <span className="flex items-center gap-1.5 text-sm font-bold text-blue-600 group-hover:text-blue-700">
@@ -237,10 +241,10 @@ const BlogList: React.FC<BlogListProps> = ({ onSelectBlog, onClose }) => {
 
                     <div className="flex-1 min-w-0">
                       <CategoryBadge category={post.category} />
-                      <h3 className="font-display text-sm sm:text-[15px] font-bold text-[#111] group-hover:text-blue-700 leading-snug transition-colors mt-2 mb-1.5 line-clamp-2">
+                      <h3 className="font-display text-sm sm:text-[15px] font-bold text-[#111] group-hover:text-blue-700 leading-snug transition-colors mt-2 mb-1.5 line-clamp-2 break-words">
                         {post.title}
                       </h3>
-                      <p className="text-xs text-[#888] leading-relaxed line-clamp-2 mb-2">
+                      <p className="text-xs text-[#888] leading-relaxed line-clamp-2 mb-2 break-words">
                         {post.excerpt}
                       </p>
                       <div className="flex items-center gap-3 text-[11px] text-[#bbb]">
