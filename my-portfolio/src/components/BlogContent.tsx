@@ -52,6 +52,17 @@ function highlight(code: string, lang: string): React.ReactNode[] {
   return nodes;
 }
 
+function renderInline(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**'))
+      return <mark key={i} className="font-semibold bg-amber-100 text-amber-900 px-1 py-px rounded-sm not-italic">{part.slice(2, -2)}</mark>;
+    if (part.startsWith('`') && part.endsWith('`'))
+      return <code key={i} className="font-mono text-[12px] font-medium bg-blue-100 text-blue-800 rounded px-1.5 py-0.5 whitespace-nowrap">{part.slice(1, -1)}</code>;
+    return part;
+  });
+}
+
 // Callout styles — light theme equivalents
 const CALLOUT = {
   info:    { icon: 'ℹ',  label: 'Info',    wrap: 'bg-blue-50  border-blue-200',  title: 'text-blue-800',  body: 'text-blue-700' },
@@ -65,12 +76,31 @@ const BlogContent: React.FC<BlogContentProps> = ({
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [lightbox, setLightbox] = useState<{ url: string; alt: string } | null>(null);
+  const [lbVisible, setLbVisible] = useState(false);
   const post = getBlogById(blogId);
 
   useEffect(() => {
     setProgress(0);
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [blogId]);
+
+  const openLightbox = useCallback((url: string, alt: string) => {
+    setLightbox({ url, alt });
+    requestAnimationFrame(() => setLbVisible(true));
+  }, []);
+
+  const closeLightbox = useCallback(() => {
+    setLbVisible(false);
+    setTimeout(() => setLightbox(null), 300);
+  }, []);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeLightbox(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [lightbox, closeLightbox]);
 
   const handleScroll = useCallback(() => {
     if (scrollRef.current) {
@@ -96,7 +126,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
       case 'paragraph':
         return (
           <p key={idx} className="text-[16px] sm:text-[17px] text-[#292929] leading-[1.85] font-sans">
-            {block.text}
+            {renderInline(block.text)}
           </p>
         );
 
@@ -150,7 +180,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
               "
             </div>
             <p className="text-[15px] sm:text-[16px] text-[#555] leading-relaxed italic font-sans pr-8">
-              {block.text}
+              {renderInline(block.text)}
             </p>
             {block.author && (
               <footer className="text-xs text-[#aaa] mt-3 not-italic font-mono">— {block.author}</footer>
@@ -167,7 +197,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
                 <span className="shrink-0 w-6 h-6 rounded-full bg-blue-100 border border-blue-200 text-blue-700 text-[11px] font-bold font-mono flex items-center justify-center mt-0.5">
                   {i + 1}
                 </span>
-                {item}
+                {renderInline(item)}
               </li>
             ))}
           </ol>
@@ -177,7 +207,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
             {block.items.map((item, i) => (
               <li key={i} className="flex gap-3 text-[16px] sm:text-[17px] text-[#292929] leading-relaxed">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-[10px]" />
-                {item}
+                {renderInline(item)}
               </li>
             ))}
           </ul>
@@ -193,7 +223,7 @@ const BlogContent: React.FC<BlogContentProps> = ({
               {block.title ?? s.label}
             </p>
             <p className={`text-[14px] sm:text-[15px] leading-relaxed font-sans ${s.body}`}>
-              {block.text}
+              {renderInline(block.text)}
             </p>
           </div>
         );
@@ -202,8 +232,13 @@ const BlogContent: React.FC<BlogContentProps> = ({
       // ── Inline image ─────────────────────────────────────────────────────
       case 'image':
         return (
-          <figure key={idx} className="my-8 sm:my-10 -mx-4 sm:mx-0">
-            <img src={block.url} alt={block.alt} className="w-full sm:rounded-xl border border-[#e5e5e5] object-cover shadow-sm" />
+          <figure key={idx} className="my-8 sm:my-10">
+            <img
+              src={block.url}
+              alt={block.alt}
+              onClick={() => openLightbox(block.url, block.alt)}
+              className="w-full h-auto block rounded-xl border border-[#e5e5e5] shadow-sm cursor-zoom-in transition-opacity duration-200 hover:opacity-90"
+            />
             {block.caption && (
               <figcaption className="text-[12px] text-[#aaa] text-center mt-2.5 italic font-sans">{block.caption}</figcaption>
             )}
@@ -366,6 +401,29 @@ const BlogContent: React.FC<BlogContentProps> = ({
           </article>
         </div>
       </div>
+
+      {/* ── Lightbox ─────────────────────────────────────────────────── */}
+      {lightbox && (
+        <div
+          onClick={closeLightbox}
+          className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ${lbVisible ? 'bg-black/85 opacity-100' : 'bg-black/0 opacity-0'}`}
+          style={{ cursor: 'zoom-out' }}
+        >
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center bg-white/10 hover:bg-white/25 rounded-full text-white text-xl leading-none transition-colors z-10 select-none"
+            aria-label="Close"
+          >
+            ×
+          </button>
+          <img
+            src={lightbox.url}
+            alt={lightbox.alt}
+            onClick={(e) => e.stopPropagation()}
+            className={`max-w-[95vw] max-h-[95vh] object-contain rounded-lg shadow-2xl transition-transform duration-300 cursor-default ${lbVisible ? 'scale-100' : 'scale-90'}`}
+          />
+        </div>
+      )}
     </div>
   );
 };
