@@ -50,6 +50,13 @@ body {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Ensure text doesn't cause horizontal overflow */
+body, html {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 /* Availability badge pulse */
 @keyframes status-ping {
   0% { transform: scale(1); opacity: 0.9; }
@@ -57,3 +64,71 @@ body {
   100% { transform: scale(2); opacity: 0; }
 }
 .animate-status-ping { animation: status-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Blog button — rotating white-light shine border */
+@property --shine-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes shine-rotate {
+  to { --shine-angle: 360deg; }
+}
+
+/* Outer wrapper: conic-gradient is the animated "border" */
+.blog-shine-wrap {
+  padding: 1.5px;
+  border-radius: 10px;
+  background: conic-gradient(
+    from var(--shine-angle),
+    transparent 0%,
+    transparent 52%,
+    rgba(180, 210, 255, 0.4) 68%,
+    rgba(248, 252, 255, 0.96) 80%,
+    rgba(180, 210, 255, 0.4) 91%,
+    transparent 100%
+  );
+  animation: shine-rotate 2.8s linear infinite;
+  display: flex;
+  align-items: stretch;
+}
+
+.blog-shine-wrap:hover {
+  background: conic-gradient(
+    from var(--shine-angle),
+    transparent 0%,
+    transparent 42%,
+    rgba(190, 215, 255, 0.55) 62%,
+    rgba(255, 255, 255, 1) 78%,
+    rgba(190, 215, 255, 0.55) 93%,
+    transparent 100%
+  );
+}
+
+/* Inner button: dark bg that hides the center, leaves the 1.5px border visible */
+.blog-shine-inner {
+  background: #07090f;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.blog-shine-wrap:hover .blog-shine-inner {
+  background: #0c1120;
+}
+
+/* Blog page — initial hidden state; GSAP drives both enter and exit */
+.blog-page-enter {
+  opacity: 0;
+  transform: scale(0.98);
+  will-change: opacity, transform;
+}

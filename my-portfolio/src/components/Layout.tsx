@@ -1,15 +1,16 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
-import { Github, Linkedin, Twitter, ExternalLink, Menu } from 'lucide-react';
-import agentfolioLogo from '../assets/Agentfolio_Logo.png';
+import { Github, Linkedin, Twitter, ExternalLink, Menu, BookOpen } from 'lucide-react';
+import agentfolioLogo from '../assets/05-pill-tag-dark.svg';
 
 interface LayoutProps {
     children: React.ReactNode;
     onHomeClick?: () => void;
     onMenuClick?: () => void;
+    onBlogClick?: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick }) => {
+const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick, onBlogClick }) => {
     return (
         <div className="flex flex-col h-[100dvh] w-full max-w-4xl mx-auto px-3 sm:px-5 font-sans">
             <header className="flex justify-between items-center py-3 sm:py-4 border-b border-[#141414] mb-2 sm:mb-4 z-20 relative shrink-0">
@@ -25,22 +26,30 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick }) =
 
                     {/* Logo */}
                     <div
-                        className="flex items-center gap-2.5 cursor-pointer group"
+                        className="flex items-center cursor-pointer group"
                         onClick={onHomeClick}
                         title="Back to Home"
                     >
-                        <div
-                            className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-[#222] group-hover:border-[#333] transition-colors"
-                            style={{
-                                backgroundImage: `url(${agentfolioLogo})`,
-                                backgroundSize: '178%',
-                                backgroundPosition: 'center',
-                            }}
+                        <img
+                            src={agentfolioLogo}
+                            alt="AgentFolio"
+                            className="h-8 sm:h-9 w-auto transition-opacity duration-200 group-hover:opacity-80"
                         />
-                        <h1 className="text-base sm:text-[17px] font-bold font-display tracking-tight leading-none">
-                            <span className="text-white group-hover:text-blue-300 transition-colors duration-200">AgentFolio</span>
-                        </h1>
                     </div>
+                </div>
+
+                {/* Blog Button — rotating white-shine border */}
+                <div className="flex blog-shine-wrap rounded-[10px] shrink-0 group">
+                    <button
+                        onClick={onBlogClick}
+                        className="blog-shine-inner"
+                        title="View Blog"
+                    >
+                        <BookOpen size={13} className="text-blue-300/90 group-hover:text-white transition-colors duration-200 shrink-0" />
+                        <span className="hidden sm:inline font-display font-semibold text-[11px] tracking-wide text-blue-200/90 group-hover:text-white transition-colors duration-200">
+                            Blog
+                        </span>
+                    </button>
                 </div>
 
                 {/* Social links */}

@@ -51,8 +51,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
     const shouldAutoScrollRef = useRef(true);
 
     const scrollToBottom = (instant = false) => {
-        if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({ behavior: instant ? 'auto' : 'smooth' });
+        const el = messagesContainerRef.current;
+        if (!el) return;
+        const target = el.scrollHeight - el.clientHeight;
+        if (instant) {
+            el.scrollTop = target;
+        } else {
+            gsap.to(el, {
+                scrollTop: target,
+                duration: 0.55,
+                ease: 'power3.out',
+                overwrite: 'auto',
+            });
         }
     };
 
@@ -120,10 +130,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
         }
     }, [messages.length, hasStarted]);
 
-    // Auto-scroll during streaming (only if already at bottom)
+    // Auto-scroll during streaming — only if user hasn't scrolled up
     useEffect(() => {
         if (isTyping && shouldAutoScrollRef.current) {
-            scrollToBottom(true); // Instant scroll to prevent jitter
+            scrollToBottom(true);
         }
     }, [messages, isTyping]);
 
@@ -136,6 +146,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
             setInputValue("");
             return;
         }
+
+        shouldAutoScrollRef.current = true;
+        scrollToBottom();
 
         if (!hasStarted) {
             onStart();
@@ -669,12 +682,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
 
     return (
         <div ref={containerRef} className="flex flex-col h-full relative overflow-hidden">
-            {/* Hero Section */}
+            <>
             <div
                 ref={heroRef}
-                className="flex-1 w-full flex flex-col items-center justify-center py-3 sm:py-5 lg:py-6 px-4 overflow-y-auto"
+                className="flex-1 w-full flex flex-col items-center justify-center py-2 sm:py-3 lg:py-4 px-4 overflow-hidden"
             >
-                <div className="flex flex-col items-center text-center max-w-sm w-full mx-auto gap-3 sm:gap-4 lg:gap-5">
+                <div className="flex flex-col items-center text-center max-w-sm w-full mx-auto gap-2 sm:gap-3 lg:gap-4">
 
                     {/* Profile image — gradient ring */}
                     <div className="relative">
@@ -853,6 +866,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ hasStarted, onStart, acti
                     </form>
                 </div>
             </div>
+            </>
         </div>
     );
 };
