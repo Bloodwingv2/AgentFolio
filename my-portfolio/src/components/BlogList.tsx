@@ -19,6 +19,8 @@ const PALETTE = [
   { pill: 'bg-cyan-100 border-cyan-200 text-cyan-700',       dot: 'bg-cyan-500'   },
 ];
 
+const isNew = (date: string) => Date.now() - new Date(date).getTime() < 30 * 24 * 60 * 60 * 1000;
+
 const namedCategories = getCategories();
 const getCatStyle = (cat: string) => {
   const i = namedCategories.indexOf(cat);
@@ -182,8 +184,13 @@ const BlogList: React.FC<BlogListProps> = ({ onSelectBlog, onClose }) => {
             {featured && (
               <button
                 onClick={() => onSelectBlog(featured.id)}
-                className="group w-full text-left bg-white border border-[#e5e5e5] hover:border-[#c0c0c0] rounded-2xl p-6 sm:p-8 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+                className="relative group w-full text-left bg-white border border-[#e5e5e5] hover:border-[#c0c0c0] rounded-2xl p-6 sm:p-8 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
               >
+                {isNew(featured.date) && (
+                  <span className="absolute top-4 right-4 text-[8px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 border border-emerald-200/70 px-1.5 py-0.5 rounded-md">
+                    New
+                  </span>
+                )}
                 <div className="flex items-center gap-3 mb-4">
                   <CategoryBadge category={featured.category} />
                   <span className="text-[10px] font-semibold text-[#bbb] uppercase tracking-[0.18em]">Featured</span>
@@ -235,8 +242,13 @@ const BlogList: React.FC<BlogListProps> = ({ onSelectBlog, onClose }) => {
                   <button
                     key={post.id}
                     onClick={() => onSelectBlog(post.id)}
-                    className="group w-full text-left flex items-start gap-4 bg-white border border-[#e5e5e5] hover:border-[#c0c0c0] rounded-xl px-4 sm:px-5 py-4 transition-all duration-150 hover:shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
+                    className="relative group w-full text-left flex items-start gap-4 bg-white border border-[#e5e5e5] hover:border-[#c0c0c0] rounded-xl px-4 sm:px-5 py-4 transition-all duration-150 hover:shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
                   >
+                    {isNew(post.date) && (
+                      <span className="absolute top-3 right-3 text-[8px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 border border-emerald-200/70 px-1.5 py-0.5 rounded-md">
+                        New
+                      </span>
+                    )}
                     <div className="w-1 self-stretch rounded-full bg-[#e0e0e0] group-hover:bg-blue-500 transition-colors shrink-0 mt-0.5" />
 
                     <div className="flex-1 min-w-0">

@@ -49,6 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children, onHomeClick, onMenuClick, onB
                         <span className="hidden sm:inline font-display font-semibold text-[11px] tracking-wide text-blue-200/90 group-hover:text-white transition-colors duration-200">
                             Blog
                         </span>
+                        <span className="hidden sm:inline text-[8px] font-bold text-green-400/90 tracking-widest leading-none">new</span>
                     </button>
                 </div>
 
